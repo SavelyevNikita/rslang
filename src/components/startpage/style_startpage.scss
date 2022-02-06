@@ -1,6 +1,6 @@
-.wrapperButton{
-  width: 100rem;
-  height: 100rem;
+.header{
+  width: 100%;
+  // height: 100%;
   border: 1px solid tomato;
   display: flex;
   justify-content: space-between;
@@ -13,4 +13,14 @@
     height: 1rem;
     border: 1px solid tomato;
   }
+}
+.main{
+  width: 100%;
+  height: 10rem;
+  border: 1px solid tomato;
+}
+.footer{
+  width: 100%;
+  height: 1rem;
+  border: 1px solid tomato;
 }

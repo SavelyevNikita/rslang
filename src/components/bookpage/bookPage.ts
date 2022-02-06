@@ -2,13 +2,15 @@ import './style_bookpage.scss'
 export class BookPage {
   head: HTMLParagraphElement;
   wrapper: HTMLDivElement;
-  constructor(nameOfPage) {
-    this.wrapper=document.createElement('div');
-    this.head=document.createElement('p');
-    this.head.textContent=(`${nameOfPage}`);
+  node: HTMLElement;
+  constructor(node: HTMLElement) {
+    this.node = node;
+    this.wrapper = document.createElement('div');
+    this.head = document.createElement('p');
   };
-  render(node:HTMLElement){
-    this.wrapper.appendChild(this.head);    
-    node.appendChild(this.wrapper);
+  render(nameOfPage: string) {
+    this.head.textContent = (`${nameOfPage}`);
+    this.wrapper.appendChild(this.head);
+    this.node.appendChild(this.wrapper);
   }
 }
