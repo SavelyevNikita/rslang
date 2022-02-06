@@ -1,0 +1,16 @@
+.wrapperButton{
+  width: 100rem;
+  height: 100rem;
+  border: 1px solid tomato;
+  display: flex;
+  justify-content: space-between;
+  .main-button,
+  .book-button,
+  .game-button,
+  .statistic-button{
+    cursor: pointer;
+    width: 10rem;
+    height: 1rem;
+    border: 1px solid tomato;
+  }
+}
