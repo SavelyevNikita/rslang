@@ -1,0 +1,42 @@
+.form-wrapper {
+  background: $button-color;
+  color: $text-color;
+  border-radius: 50%;
+  height: 300px;
+  width: 300px;
+  padding: 40px 40px;
+  box-sizing: border-box;
+}
+.autorization-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 20px;
+}
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.form-title {
+  margin: 0;
+}
+.input-text {
+  width: 150px;
+}
+.button {
+  background: transparent;
+  border: $text-color solid 1px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.button:hover {
+  border: none;
+  background: $hover-button-color;
+}
