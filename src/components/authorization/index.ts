@@ -1,5 +1,5 @@
 import { api } from "./../../api/server";
-import signInHtml from "./signIn.html";
+import signInHtml from "./signin.html";
 import registrationHTML from "./registration.html";
 import "./index.scss";
 
@@ -82,7 +82,7 @@ export class AutorizationPopUp {
     }
   }
 
-  render(node) {
+  render(node: HTMLDivElement) {
     node.appendChild(this.wrapperHtml);
     this.openSignIn();
   }
