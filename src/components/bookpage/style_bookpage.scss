@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+    .section-1,
+    .section-2,
+    .section-3,
+    .section-4,
+    .section-5,
+    .section-6,
+    .section-7 {
+        border: 1px tomato solid;
+        width: 5rem;
+        height: 10rem;
+    }
+}

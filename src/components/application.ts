@@ -1,26 +1,104 @@
 import { StartPage } from './startPage/startPage';
-import { BookPage } from './bookPage/bookPage';
+import { CategoryPage } from './bookPage/categoryPage';
 import { GamePage } from './gamePage/gamePage';
 import { StatisticPage } from './statisticPage/statisticPage';
-import { api } from '../api/server'
+import { DataModel } from './modelData';
+import { BookPage } from './bookpage/bookPage';
+
 export class Application {
+  dataModel: DataModel;
   constructor() {
     this.startpageCycle();
   }
-  private  startpageCycle() {
+  private startpageCycle() {
     const startPage = new StartPage(document.body);
     startPage.renderWholePage();
     startPage.onMain = () => {
       startPage.destroy();
       startPage.render('Start page');
     }
-     startPage.onBook = async () => {
+    startPage.onBook = () => {
       startPage.destroy();
-      const bookPage = new BookPage(startPage.myNode);
-      bookPage.render('Book page');
-      const myApi = await api.getWords(0, 0);
-      // const myApi = await api.getWords(0, 0).then(data=>console.log(data));
-      console.log(myApi);
+      const categoryPage = new CategoryPage(startPage.myNode);
+      categoryPage.onSection1 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(0);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+      categoryPage.onSection2 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(1);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+      categoryPage.onSection3 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(2);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+      categoryPage.onSection4 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(5);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+      categoryPage.onSection5 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(4);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+      categoryPage.onSection6 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(5);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+      categoryPage.onSection7 = () => {
+        const bookPage = new BookPage(startPage.myNode);
+        bookPage.render('Book page');
+        this.dataModel = new DataModel(6);
+        bookPage.onNext = () => {
+          this.dataModel.getWordsUp();
+        }
+        bookPage.onPrev = () => {
+          this.dataModel.getWordsDown();
+        }
+      }
+
+
     }
     startPage.onGame = () => {
       startPage.destroy();
