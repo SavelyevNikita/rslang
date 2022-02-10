@@ -2,3 +2,56 @@ $text-color: #000000;
 $bg-color: #ece6cd;
 $hover-button-color: #ee6a59;
 $button-color: #f9ac67;
+
+.category {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  &__tittle {
+    font-size: 32px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  &__text {
+    font-size: 18px;
+    margin: 50px auto;
+  }
+  .category-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  &__item {
+    height: 80px;
+    width: 80px;
+    border-radius: 10%;
+    transition: 0.3s;
+    &:hover {
+      background: $hover-button-color;
+    }
+    &_1 {
+      background: #fdeddf;
+    }
+    &_2 {
+      background: #fde5d0;
+    }
+    &_3 {
+      background: #fcd6b5;
+    }
+    &_4 {
+      background: #fbc99d;
+    }
+    &_5 {
+      background: #fabb82;
+    }
+    &_6 {
+      background: #f9ac67;
+    }
+  }
+}
