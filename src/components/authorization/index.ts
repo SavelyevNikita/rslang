@@ -82,9 +82,18 @@ export class AutorizationPopUp {
     }
   }
 
-  render(node: HTMLDivElement) {
-    node.appendChild(this.wrapperHtml);
-    this.openSignIn();
+  removeForm = (event: Event) => {
+    if (!(event.target as HTMLElement).closest(".form-wrapper")) {
+      console.log(event.target);
+      this.destroy();
+      document.removeEventListener("click", this.removeForm);
+    }
+  };
+  render(node: HTMLElement) {
+    if (!document.querySelector(".form-wrapper")) {
+      node.appendChild(this.wrapperHtml);
+      this.openSignIn();
+    }
   }
   destroy() {
     this.wrapperHtml.remove();

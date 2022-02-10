@@ -1,23 +1,25 @@
-<form id="signIn" class="autorization-form">
-  <h3 class="form-title">Привет!</h3>
-  <div class="flex-container">
-    <label for="userEmail">E-mail: </label>
-    <input class="input-text" type="email" id="userEmail" />
+<form class="form" id="signIn">
+  <h3 class="form__title">Привет!</h3>
+  <div class="form__container">
+    <label class="form__label" for="userEmail">E-mail: </label>
+    <input class="form__input" id="userEmail" type="email" />
   </div>
-  <div class="flex-container">
-    <label for="userPassword">Пароль: </label>
+  <div class="form__container">
+    <label class="form__label" for="userPassword">Пароль: </label>
     <input
-      class="input-text"
-      type="password"
+      class="form__input"
       id="userPassword"
+      type="password"
       autocomplete="on"
     />
   </div>
-  <div class="flex-container">
-    <input class="button id="signIn" button-submit" type="submit" value="Войти"
+  <div class="form__container">
+    <input class="form__button" id="signIn" type="submit" value="Войти" />
+    <input
+      class="form__button"
+      id="openRegistration"
+      type="button"
+      value="Регистрация"
     />
-    <button type="button" id="openRegistration" class="button">
-      Регистрация
-    </button>
   </div>
 </form>

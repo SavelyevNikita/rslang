@@ -15,7 +15,7 @@ export class Application {
     startPage.renderWholePage();
     startPage.onMain = () => {
       startPage.destroy();
-      startPage.render('Start page');
+      startPage.render();
     }
     startPage.onBook = () => {
       startPage.destroy();

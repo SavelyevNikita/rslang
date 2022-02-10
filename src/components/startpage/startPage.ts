@@ -1,88 +1,73 @@
-import './style_startpage.scss'
+import "./style_startpage.scss";
+import { AutorizationPopUp } from "./../authorization/index";
+import docHTML from "./index.html";
 export class StartPage {
-  header: HTMLDivElement;
+  div: HTMLDivElement;
   mainButton: HTMLDivElement;
   bookButton: HTMLDivElement;
   gameButton: HTMLDivElement;
   statisticButton: HTMLDivElement;
-  footer: HTMLDivElement;
-  rsLogo: HTMLDivElement;
-  links: HTMLDivElement;
-  year: HTMLParagraphElement;
-  main: HTMLDivElement;
+  sprintButton: HTMLDivElement;
+  audiocallButton: HTMLDivElement;
+  signInButton: HTMLButtonElement;
+  signInWrapper: HTMLDivElement;
+  main: HTMLElement;
+  myNode: HTMLDivElement;
+  node: HTMLElement;
+
   onMain: () => void;
   onBook: () => void;
   onGame: () => void;
   onStatistic: () => void;
-  myNode: HTMLDivElement;
-  node: HTMLElement;
-  head: HTMLParagraphElement;
+
   constructor(node: HTMLElement) {
     this.node = node;
-    this.header = document.createElement('div');
-    this.header.setAttribute('class', 'header');
-    this.mainButton = document.createElement('div');
-    this.mainButton.setAttribute('class', 'main-button');
-
-    this.head = document.createElement('p');
-    this.main = document.createElement('div');
-    this.main.setAttribute('class', 'main');
-    this.myNode = this.main;
-
-    this.footer = document.createElement('div');
-    this.footer.setAttribute('class', 'footer');
-    this.rsLogo = document.createElement('div');
-    this.links = document.createElement('div');
-    this.year = document.createElement('p');
-
-
-    this.bookButton = document.createElement('div');
-    this.bookButton.setAttribute('class', 'book-button');
-    this.gameButton = document.createElement('div');
-    this.gameButton.setAttribute('class', 'game-button');
-    this.statisticButton = document.createElement('div');
-    this.statisticButton.setAttribute('class', 'statistic-button');
+    const doc = document.createElement("div");
+    doc.setAttribute("class", "body");
+    doc.innerHTML = docHTML;
+    this.div = doc;
+    this.myNode = doc.querySelector(".main");
+    this.main = doc.querySelector(".home");
+    this.mainButton = doc.querySelector(".nav__link_main");
+    this.bookButton = doc.querySelector(".nav__link_book");
+    this.gameButton = doc.querySelector(".nav__link_game");
+    this.sprintButton = doc.querySelector(".game-list__item_sprint");
+    this.audiocallButton = doc.querySelector(".game-list__item_audiocall");
+    this.statisticButton = doc.querySelector(".nav__link_statistics");
+    this.signInButton = doc.querySelector(".signin");
+    this.signInWrapper = doc.querySelector(".signin-wrapper");
 
     this.mainButton.onclick = () => {
       this.onMain();
-    }
+    };
     this.bookButton.onclick = () => {
       this.onBook();
-    }
+    };
     this.gameButton.onclick = () => {
       this.onGame();
-    }
+    };
     this.statisticButton.onclick = () => {
       this.onStatistic();
-    }
-  };
-  render(nameOfPage: string) {
-    this.head.textContent=`${nameOfPage}`;
-    this.main.appendChild(this.head);
-    // this.node.appendChild(this.main);
+    };
+    this.signInButton.onclick = () => {
+      const autorizationPopUp = new AutorizationPopUp();
+      autorizationPopUp.render(this.signInWrapper);
+      setTimeout(() => {
+        document.addEventListener("click", autorizationPopUp.removeForm);
+      }, 300);
+    };
+  }
+  render() {
+    this.myNode.appendChild(this.main);
   }
   renderWholePage() {
-    this.mainButton.textContent = 'Главная';
-    this.header.appendChild(this.mainButton);
-    this.bookButton.textContent = 'Электронный учебник';
-    this.header.appendChild(this.bookButton);
-    this.gameButton.textContent = 'Мини-игры';
-    this.header.appendChild(this.gameButton);
-    this.statisticButton.textContent = 'Статистика';
-    this.header.appendChild(this.statisticButton);
-
-    this.footer.appendChild(this.rsLogo);
-    this.footer.appendChild(this.links);
-    this.footer.appendChild(this.year);
-
-    this.node.appendChild(this.header);
-    this.node.appendChild(this.main);
-    this.node.appendChild(this.footer);
-  };
+    console.log("this.node", this.node);
+    this.node.appendChild(this.div);
+  }
   destroy() {
-    this.main.innerHTML = '';
-  };
+    this.myNode.innerHTML = "";
+  }
   destroyWhole() {
     this.node.remove();
-  };
+  }
 }
