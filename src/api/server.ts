@@ -1,4 +1,7 @@
+// https://react-learnwords-example.herokuapp.com/words?group=0&page=0
 const HOST = "https://react-learnwords-example.herokuapp.com";
+
+
 
 export const api = {
   async createUser(user: {
@@ -19,6 +22,7 @@ export const api = {
     console.log("###content", content);
   },
 
+
   async signInUser(user: {
     email: string,
     password: string,
@@ -34,5 +38,10 @@ export const api = {
     const content = await rawResponse.json();
     localStorage.setItem("user", `${content}`);
     console.log("###content", content);
+  },
+    async getWords(group: number, page: number) {
+    const rawResponse = await fetch(`${HOST}/words?group=${group}&page=${page}`);
+    const rawWards = await rawResponse.json();
+    return rawWards;
   },
 };
