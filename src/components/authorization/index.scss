@@ -1,42 +1,47 @@
 .form-wrapper {
   background: $button-color;
   color: $text-color;
-  border-radius: 50%;
+  border-radius: 10%;
   height: 300px;
   width: 300px;
-  padding: 40px 40px;
-  box-sizing: border-box;
+  padding: 0 40px;
+  position: absolute;
+  top: -5px;
+  right: 50%;
+  transform: translate(50%, 0);
 }
-.autorization-form {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   gap: 20px;
-}
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.form-title {
-  margin: 0;
-}
-.input-text {
-  width: 150px;
-}
-.button {
-  background: transparent;
-  border: $text-color solid 1px;
-  border-radius: 10px;
-  width: 100px;
-  height: 30px;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.button:hover {
-  border: none;
-  background: $hover-button-color;
+  &__title {
+    font-size: 22px;
+  }
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  &__input {
+    width: 150px;
+    padding: 5px;
+  }
+  &__button {
+    color: $text-color;
+    background: transparent;
+    border: solid 1px;
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+      border: none;
+      background: $hover-button-color;
+    }
+  }
 }

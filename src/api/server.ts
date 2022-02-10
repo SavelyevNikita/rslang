@@ -1,7 +1,11 @@
 const HOST = "https://react-learnwords-example.herokuapp.com";
 
 export const api = {
-  async createUser(user) {
+  async createUser(user: {
+    name:string,
+    email: string,
+    password: string,
+  }) {
     const rawResponse = await fetch(`${HOST}/users`, {
       method: "POST",
       headers: {
@@ -15,7 +19,10 @@ export const api = {
     console.log("###content", content);
   },
 
-  async signInUser(user) {
+  async signInUser(user: {
+    email: string,
+    password: string,
+  }) {
     const rawResponse = await fetch(`${HOST}/signin`, {
       method: "POST",
       headers: {
