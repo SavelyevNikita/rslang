@@ -7,9 +7,12 @@ export class BookPage {
   prev: HTMLButtonElement;
   onNext: () => void;
   onPrev: () => void;
+  cards: HTMLDivElement;
   constructor(node: HTMLElement) {
     this.node = node;
     this.wrapper = document.createElement('div');
+    this.cards = document.createElement('div');
+    this.cards.setAttribute('class','cards');
     this.head = document.createElement('p');
     this.next = document.createElement('button');
     this.next.textContent = 'Next';
@@ -22,6 +25,7 @@ export class BookPage {
     this.wrapper.appendChild(this.next);
     this.wrapper.appendChild(this.prev);
     this.node.appendChild(this.wrapper);
+    this.node.appendChild(this.cards);
     this.event();
   }
   event() {

@@ -27,20 +27,32 @@ export class DataModel {
   }
   getWordsUp() {
     if (this.page >= 0 && this.page < 30) {
-      this.getWords();
+      const words=this.getWords();
       this.page += 1;
-    } else { this.page = 0; }
+      return words;
+    } else { this.page = 0; 
+      const words=this.getWords();
+      this.page += 1;
+      return words;
+}
   }
   getWordsDown() {
     if (this.page >= 0 && this.page < 30) {
-      this.getWords();
+      const words=this.getWords();
       this.page -= 1;
-    } else { this.page = 29; }
+      return words;
+    } else { this.page = 29; 
+      const words=this.getWords();
+      this.page -= 1;
+      return words;
+}
   }
-  private async getWords() {
+  async getWords() {
     const myApi = await api.getWords(this.type, this.page);
-    const myWord = myApi.map((item: Iword) => item);
-    console.log(myWord);
-
+    // await console.log(myApi);
+    // const myWord = await myApi.map((item: Iword) => item);
+    // await console.log(myWord);
+    // return await myWord;
+    return await myApi;
   }
 }

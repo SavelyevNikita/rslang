@@ -12,7 +12,7 @@ export class StartPage {
   signInButton: HTMLButtonElement;
   signInWrapper: HTMLDivElement;
   main: HTMLElement;
-  myNode: HTMLDivElement;
+  startPageNode: HTMLDivElement;
   node: HTMLElement;
 
   onMain: () => void;
@@ -26,7 +26,7 @@ export class StartPage {
     doc.setAttribute("class", "body");
     doc.innerHTML = docHTML;
     this.div = doc;
-    this.myNode = doc.querySelector(".main");
+    this.startPageNode = doc.querySelector(".main");
     this.main = doc.querySelector(".home");
     this.mainButton = doc.querySelector(".nav__link_main");
     this.bookButton = doc.querySelector(".nav__link_book");
@@ -36,7 +36,7 @@ export class StartPage {
     this.statisticButton = doc.querySelector(".nav__link_statistics");
     this.signInButton = doc.querySelector(".signin");
     this.signInWrapper = doc.querySelector(".signin-wrapper");
-
+    // console.log(this.startPageNode);
     this.mainButton.onclick = () => {
       this.onMain();
     };
@@ -58,14 +58,15 @@ export class StartPage {
     };
   }
   render() {
-    this.myNode.appendChild(this.main);
+    this.startPageNode.appendChild(this.main);
   }
   renderWholePage() {
     console.log("this.node", this.node);
     this.node.appendChild(this.div);
   }
   destroy() {
-    this.myNode.innerHTML = "";
+    this.startPageNode.innerHTML = "";
+    // this.myNode.remove();
   }
   destroyWhole() {
     this.node.remove();

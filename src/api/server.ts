@@ -22,7 +22,6 @@ export const api = {
     console.log("###content", content);
   },
 
-
   async signInUser(user: {
     email: string,
     password: string,
@@ -39,6 +38,7 @@ export const api = {
     localStorage.setItem("user", `${content}`);
     console.log("###content", content);
   },
+
     async getWords(group: number, page: number) {
     const rawResponse = await fetch(`${HOST}/words?group=${group}&page=${page}`);
     const rawWards = await rawResponse.json();
