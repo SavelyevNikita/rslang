@@ -1,5 +1,5 @@
 // https://react-learnwords-example.herokuapp.com/words?group=0&page=0
-const HOST = "https://react-learnwords-example.herokuapp.com";
+export const HOST = "https://react-learnwords-example.herokuapp.com";
 
 
 

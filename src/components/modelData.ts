@@ -1,4 +1,4 @@
-import { api } from '../api/server'
+import { api, HOST } from '../api/server'
 
 export interface Iword {
   audio: string;
@@ -49,10 +49,6 @@ export class DataModel {
   }
   async getWords() {
     const myApi = await api.getWords(this.type, this.page);
-    // await console.log(myApi);
-    // const myWord = await myApi.map((item: Iword) => item);
-    // await console.log(myWord);
-    // return await myWord;
     return await myApi;
   }
 }

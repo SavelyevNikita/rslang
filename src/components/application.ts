@@ -22,105 +22,28 @@ export class Application {
       startPage.destroy();
       const categoryPage = new CategoryPage(startPage.startPageNode);
       categoryPage.onSection1 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(0);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          console.log(bookPage.cards);
-          words.map((item: Iword) => {
-            console.log(item);
-            const bookCard = new BookCard(bookPage.cards,item);
-          });
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => {
-            console.log(item);
-            const bookCard = new BookCard(startPage.startPageNode,item);
-          });
-        }
+        this.bookPageCycle(startPage.startPageNode, 0);
       }
       categoryPage.onSection2 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(1);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          words.map((item: Iword) => console.log(item));
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => console.log(item));
-        }
+        this.bookPageCycle(startPage.startPageNode, 1);
       }
       categoryPage.onSection3 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(2);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          words.map((item: Iword) => console.log(item));
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => console.log(item));
-        }
+        this.bookPageCycle(startPage.startPageNode, 2);
       }
       categoryPage.onSection4 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(5);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          words.map((item: Iword) => console.log(item));
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => console.log(item));
-        }
+        this.bookPageCycle(startPage.startPageNode, 3);
       }
       categoryPage.onSection5 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(4);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          words.map((item: Iword) => console.log(item));
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => console.log(item));
-        }
+        this.bookPageCycle(startPage.startPageNode, 4);
       }
       categoryPage.onSection6 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(5);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          words.map((item: Iword) => console.log(item));
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => console.log(item));
-        }
+        this.bookPageCycle(startPage.startPageNode, 5);
+
       }
       categoryPage.onSection7 = () => {
-        const bookPage = new BookPage(startPage.startPageNode);
-        bookPage.render('Book page');
-        this.dataModel = new DataModel(6);
-        bookPage.onNext = async () => {
-          const words = await this.dataModel.getWordsUp();
-          words.map((item: Iword) => console.log(item));
-        }
-        bookPage.onPrev = async () => {
-          const words = await this.dataModel.getWordsDown();
-          words.map((item: Iword) => console.log(item));
-        }
+        console.log('is empty...')
+        this.bookPageCycle(startPage.startPageNode, 6);
       }
-
-
     }
     startPage.onGame = () => {
       startPage.destroy();
@@ -133,5 +56,28 @@ export class Application {
       statisticPage.render('Statistic Page');
     }
   };
+
+  private bookPageCycle(node: HTMLElement, type: number) {
+    const bookPage = new BookPage(node);
+    bookPage.render('Book page');
+    this.dataModel = new DataModel(type);
+    // bookPage.onNext();
+    bookPage.onNext = async () => {
+      bookPage.destroyCards();
+      const words = await this.dataModel.getWordsUp();
+      words.map((item: Iword) => {
+        console.log(item);
+        const bookCard = new BookCard(bookPage.cards, item);
+      });
+    }
+    bookPage.onPrev = async () => {
+      bookPage.destroyCards();
+      const words = await this.dataModel.getWordsDown();
+      words.map((item: Iword) => {
+        console.log(item);
+        const bookCard = new BookCard(bookPage.cards, item);
+      });
+    }
+  }
 
 }

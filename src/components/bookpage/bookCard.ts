@@ -1,3 +1,4 @@
+import { HOST } from '../../api/server'
 export interface IOPtion {
   id: string,
   group: number,
@@ -39,9 +40,9 @@ export class BookCard {
     this.word = document.createElement('p');
     this.word.textContent=option.word;
     this.image = document.createElement('img');
-    // this.image.src = option.image;
+    this.image.src = `${HOST}/${option.image}`;
     this.audio = document.createElement('audio');
-    // this.audio.src=option.audio;
+    this.audio.src=`${HOST}/${option.audio}`;
     this.textMeaning = document.createElement('p');
     this.textMeaning.textContent=option.textMeaning;
     this.textExample = document.createElement('p');

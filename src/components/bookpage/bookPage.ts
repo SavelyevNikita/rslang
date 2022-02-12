@@ -12,7 +12,7 @@ export class BookPage {
     this.node = node;
     this.wrapper = document.createElement('div');
     this.cards = document.createElement('div');
-    this.cards.setAttribute('class','cards');
+    this.cards.setAttribute('class', 'cards');
     this.head = document.createElement('p');
     this.next = document.createElement('button');
     this.next.textContent = 'Next';
@@ -22,8 +22,8 @@ export class BookPage {
   render(nameOfPage: string) {
     this.head.textContent = (`${nameOfPage}`);
     this.wrapper.appendChild(this.head);
-    this.wrapper.appendChild(this.next);
     this.wrapper.appendChild(this.prev);
+    this.wrapper.appendChild(this.next);
     this.node.appendChild(this.wrapper);
     this.node.appendChild(this.cards);
     this.event();
@@ -35,5 +35,8 @@ export class BookPage {
     this.prev.onclick = () => {
       this.onPrev();
     }
+  }
+  destroyCards() {
+    this.cards.innerHTML = '';
   }
 }
