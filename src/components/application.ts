@@ -61,23 +61,27 @@ export class Application {
     const bookPage = new BookPage(node);
     bookPage.render('Book page');
     this.dataModel = new DataModel(type);
-    // bookPage.onNext();
     bookPage.onNext = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsUp();
       words.map((item: Iword) => {
-        console.log(item);
         const bookCard = new BookCard(bookPage.cards, item);
+        bookCard.onFavorite=()=>{
+          console.log(item);
+          console.log('add to favorite..')
+        }
+        bookCard.onComplicated=()=>{
+          console.log('add to complicated..')
+        }    
       });
     }
     bookPage.onPrev = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsDown();
       words.map((item: Iword) => {
-        console.log(item);
         const bookCard = new BookCard(bookPage.cards, item);
       });
-    }
+    };
+    bookPage.onNext();
   }
-
 }

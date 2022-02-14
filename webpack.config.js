@@ -31,11 +31,11 @@ const config = {
       minify: false,
     }),
     new CleanWebpackPlugin(),
-    // new CopyPlugin({
-    //     patterns: [
-    //         { from: path.resolve(__dirname, './src/img'), to: path.resolve(__dirname, './dist/img') },
-    //     ],
-    // }),
+    new CopyPlugin({
+        patterns: [
+            { from: path.resolve(__dirname, './src/img'), to: path.resolve(__dirname, './dist/img') },
+        ],
+    }),
   ],
   module: {
     rules: [

@@ -44,4 +44,8 @@ export const api = {
     const rawWards = await rawResponse.json();
     return rawWards;
   },
+  async getWordsId(group: number, page: number) {
+    console.log('empty')
+  },
+
 };

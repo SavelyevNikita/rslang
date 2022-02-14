@@ -61,12 +61,10 @@ export class StartPage {
     this.startPageNode.appendChild(this.main);
   }
   renderWholePage() {
-    console.log("this.node", this.node);
     this.node.appendChild(this.div);
   }
   destroy() {
     this.startPageNode.innerHTML = "";
-    // this.myNode.remove();
   }
   destroyWhole() {
     this.node.remove();

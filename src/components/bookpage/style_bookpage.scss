@@ -1,7 +1,7 @@
 .wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     .section-1,
     .section-2,
     .section-3,
@@ -14,13 +14,34 @@
         height: 10rem;
     }
 }
-.card{
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  width: 100%;
-  height: 2rem;
-  border: 1px tomato solid;
-  // width: 5rem;
-  height: 10rem;
+
+.card {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    height: 2rem;
+    border: 1px tomato solid;
+    height: 10rem;
+}
+
+.play-button,
+.favorite-button,
+.complicated-button {
+  display: block;
+    width: 2rem;
+    height: 2rem;
+    margin: 1rem;
+}
+.play-button
+{
+  background: url(../../img/play-button.svg);
+}
+.favorite-button
+{
+  background: url(../../img/favorite-button.svg);
+}
+.complicated-button
+{
+  background: url(../../img/complicated-button.svg);
 }
