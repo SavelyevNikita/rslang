@@ -16,24 +16,24 @@ export class CategoryPage {
   onSection5: () => void;
   onSection6: () => void;
   onSection7: () => void;
-  constructor(node: HTMLElement) {
+  constructor(node: HTMLElement, isAutirised: boolean) {
     this.node = node;
     this.wrapper = document.createElement('div');
     this.wrapper.setAttribute('class', 'wrapper');
     this.section_1 = document.createElement('div');
     this.section_1.setAttribute('class', 'section-1');
     this.section_2 = document.createElement('div');
-    this.section_2.setAttribute('class', 'section-1');
+    this.section_2.setAttribute('class', 'section-2');
     this.section_3 = document.createElement('div');
-    this.section_3.setAttribute('class', 'section-1');
+    this.section_3.setAttribute('class', 'section-3');
     this.section_4 = document.createElement('div');
-    this.section_4.setAttribute('class', 'section-1');
+    this.section_4.setAttribute('class', 'section-4');
     this.section_5 = document.createElement('div');
-    this.section_5.setAttribute('class', 'section-1');
+    this.section_5.setAttribute('class', 'section-5');
     this.section_6 = document.createElement('div');
-    this.section_6.setAttribute('class', 'section-1');
+    this.section_6.setAttribute('class', 'section-6');
     this.section_7 = document.createElement('div');
-    this.section_7.setAttribute('class', 'section-1');
+    this.section_7.setAttribute('class', 'section-7');
     this.wrapper.appendChild(this.section_1);
     this.wrapper.appendChild(this.section_2);
     this.wrapper.appendChild(this.section_3);
@@ -43,6 +43,9 @@ export class CategoryPage {
     this.wrapper.appendChild(this.section_7);
     this.node.appendChild(this.wrapper);
     this.events();
+    if (!isAutirised) {
+      this.section_7.hidden=true;
+    } else this.section_7.hidden=false;
 
   };
   events() {

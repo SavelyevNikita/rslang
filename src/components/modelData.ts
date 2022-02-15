@@ -1,4 +1,4 @@
-import { api, HOST } from '../api/server'
+import { Api, HOST } from '../api/server'
 
 export interface Iword {
   audio: string;
@@ -20,35 +20,42 @@ export interface Iword {
 export class DataModel {
   type: number;
   page: number;
-  constructor(type: number) {
-    this.type = type;
+  complicatedWords: Iword[];
+  api: Api;
+  constructor() {
+    this.type = null;
     this.page = 0;
+    this.complicatedWords = [];
+    this.api = new Api();
+  }
+  getWordsUp(type: number) {
+    if (this.page >= 0 && this.page < 30) {
+      const words = this.getWords(type);
+      this.page += 1;
+      return words;
+    } else {
+      this.page = 0;
+      const words = this.getWords(type);
+      this.page += 1;
+      return words;
+    }
+  }
+  getWordsDown(type: number) {
+    if (this.page >= 0 && this.page < 30) {
+      const words = this.getWords(type);
+      this.page -= 1;
+      return words;
+    } else {
+      this.page = 29;
+      const words = this.getWords(type);
+      this.page -= 1;
+      return words;
+    }
+  }
+  async getWords(type: number) {
+    this.type = type;
     console.log(this.type);
-  }
-  getWordsUp() {
-    if (this.page >= 0 && this.page < 30) {
-      const words=this.getWords();
-      this.page += 1;
-      return words;
-    } else { this.page = 0; 
-      const words=this.getWords();
-      this.page += 1;
-      return words;
-}
-  }
-  getWordsDown() {
-    if (this.page >= 0 && this.page < 30) {
-      const words=this.getWords();
-      this.page -= 1;
-      return words;
-    } else { this.page = 29; 
-      const words=this.getWords();
-      this.page -= 1;
-      return words;
-}
-  }
-  async getWords() {
-    const myApi = await api.getWords(this.type, this.page);
+    const myApi = await this.api.getWords(this.type, this.page);
     return await myApi;
   }
 }
