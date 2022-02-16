@@ -93,6 +93,7 @@ export class BookCard {
     this.playButton.onclick = () => {
       this.audio.play();
       this.audio.onended = () => {
+        // this.audio.oncanplay
         this.audio.src = `${HOST}/${option.audioExample}`;
         this.audio.play();
         this.audio.onended = () => {

@@ -9,27 +9,32 @@ import { AutorizationPopUp } from './authorization/index';
 
 export class Application {
   dataModel: DataModel;
-  autorization: AutorizationPopUp;
   constructor() {
-    this.startpageCycle();
+    this.startpageCycle(false);
     this.dataModel = new DataModel();
   }
-  private startpageCycle() {
-    const autorization = new AutorizationPopUp();    
-    autorization.onUser = () => {
-      // console.log('autorization');
-    };
-    console.log(autorization);
-    
+  private startpageCycle(isAutorised: boolean) {
     const startPage = new StartPage(document.body);
+    startPage.autorization.onUser = (user) => {
+      console.log(user);
+      if (user) {
+        startPage.destroy();
+        this.startpageCycle(true);
+      } else {
+        startPage.destroy();
+        this.startpageCycle(false);
+      }
+    };
     startPage.renderWholePage();
     startPage.onMain = () => {
+      console.log(this);
       startPage.destroy();
       startPage.render();
     }
     startPage.onBook = () => {
+      console.log(this);
       startPage.destroy();
-      const categoryPage = new CategoryPage(startPage.startPageNode, false);
+      const categoryPage = new CategoryPage(startPage.startPageNode, isAutorised);
       categoryPage.onSection1 = () => {
         this.bookPageCycle(startPage.startPageNode, 0);
       }
@@ -47,7 +52,6 @@ export class Application {
       }
       categoryPage.onSection6 = () => {
         this.bookPageCycle(startPage.startPageNode, 5);
-
       }
       categoryPage.onSection7 = () => {
         console.log('is empty...')

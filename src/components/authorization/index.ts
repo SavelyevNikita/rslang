@@ -21,7 +21,7 @@ export class AutorizationPopUp {
   password: string;
   user: IUser;
   api: Api;
-  onUser: () => void;
+  onUser: (user: IUser) => void;
   constructor() {
     this.wrapperHtml = document.createElement("div");
     this.wrapperHtml.classList.add("form-wrapper");
@@ -31,7 +31,6 @@ export class AutorizationPopUp {
     this.api = new Api();
   }
   signIn() {
-    // this.onUser();
     const email = (document.getElementById("userEmail") as HTMLInputElement)
       .value;
     const password = (
@@ -47,9 +46,7 @@ export class AutorizationPopUp {
         this.user = obj;
         document.querySelector('.signin').textContent = this.user.name;
         console.log(this.user);
-        console.log()
-        // this.onUser();
-        // return this.user;
+        this.onUser(this.user);
       }
       this.destroy();
     }
@@ -128,4 +125,5 @@ export class AutorizationPopUp {
   signOut() {
     localStorage.setItem("user", ``);
   }
+
 }

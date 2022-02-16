@@ -19,6 +19,8 @@ export class StartPage {
   onBook: () => void;
   onGame: () => void;
   onStatistic: () => void;
+  onSign: () => void;
+  autorization: AutorizationPopUp;
 
   constructor(node: HTMLElement) {
     this.node = node;
@@ -36,11 +38,13 @@ export class StartPage {
     this.statisticButton = doc.querySelector(".nav__link_statistics");
     this.signInButton = doc.querySelector(".signin");
     this.signInWrapper = doc.querySelector(".signin-wrapper");
-    // console.log(this.startPageNode);
+    this.autorization = new AutorizationPopUp();
     this.mainButton.onclick = () => {
+      console.log(this);
       this.onMain();
     };
     this.bookButton.onclick = () => {
+      console.log(this);
       this.onBook();
     };
     this.gameButton.onclick = () => {
@@ -50,10 +54,9 @@ export class StartPage {
       this.onStatistic();
     };
     this.signInButton.onclick = () => {
-      const autorizationPopUp = new AutorizationPopUp();
-      autorizationPopUp.render(this.signInWrapper);
+      this.autorization.render(this.signInWrapper);
       setTimeout(() => {
-        document.addEventListener("click", autorizationPopUp.removeForm);
+        document.addEventListener("click", this.autorization.removeForm);
       }, 300);
     };
   }

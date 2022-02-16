@@ -19,11 +19,11 @@ export class CategoryPage {
   constructor(node: HTMLElement, isAutirised: boolean) {
     this.node = node;
     this.wrapper = document.createElement('div');
-    this.wrapper.setAttribute('class', 'wrapper');
+    this.wrapper.classList.add('wrapper');
     this.section_1 = document.createElement('div');
-    this.section_1.setAttribute('class', 'section-1');
+    this.section_1.classList.add('section-1');
     this.section_2 = document.createElement('div');
-    this.section_2.setAttribute('class', 'section-2');
+    this.section_2.classList.add('section-2');
     this.section_3 = document.createElement('div');
     this.section_3.setAttribute('class', 'section-3');
     this.section_4 = document.createElement('div');
@@ -44,8 +44,8 @@ export class CategoryPage {
     this.node.appendChild(this.wrapper);
     this.events();
     if (!isAutirised) {
-      this.section_7.hidden=true;
-    } else this.section_7.hidden=false;
+      this.section_7.hidden = true;
+    } else this.section_7.hidden = false;
 
   };
   events() {
