@@ -1,6 +1,8 @@
 import { api } from "./../../api/server";
 import categoryHtml from "./category.html";
+import resultsHTML from "./result.html";
 import cardHTML from "./sprint.html";
+import playSvg from "./../../assets/play-button.svg";
 import "./index.scss";
 interface Iword {
   audio: string;
@@ -31,6 +33,10 @@ export class SprintPage {
   rightButton: HTMLButtonElement;
   rightResults: HTMLDivElement;
   wrongResults: HTMLDivElement;
+  rightResultsNum: HTMLDivElement;
+  wrongResultsNum: HTMLDivElement;
+  buttonHome: HTMLButtonElement;
+  buttonContinue: HTMLButtonElement;
   page: number;
   wrongList: Iword[];
   rightList: Iword[];
@@ -40,6 +46,8 @@ export class SprintPage {
   randNumList: number[];
   counterOfRandNum: number;
   timerId: any;
+  onHome: () => void;
+  onContinue: () => void;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -50,6 +58,21 @@ export class SprintPage {
     game.classList.add("sprint");
     game.innerHTML = cardHTML;
     this.game = game;
+
+    const results = document.createElement("div");
+    results.classList.add("game-result");
+    results.innerHTML = resultsHTML;
+    this.results = results;
+
+    this.rightResults = results.querySelector(".game-result__container_right");
+    this.wrongResults = results.querySelector(".game-result__container_wrong");
+    this.rightResultsNum = results.querySelector(".game-result__num_right");
+    this.wrongResultsNum = results.querySelector(".game-result__num_wrong");
+    this.buttonHome = results.querySelector(".game-result__button_home");
+    this.buttonContinue = results.querySelector(
+      ".game-result__button_continue"
+    );
+
     this.wordEnglish = game.querySelector(".sprint__english");
     this.wordRussian = game.querySelector(".sprint__russian");
     this.wrongButton = game.querySelector(".sprint__button_wrong");
@@ -70,6 +93,12 @@ export class SprintPage {
     };
     this.rightButton.onclick = () => {
       this.onRightButton();
+    };
+    this.buttonHome.onclick = () => {
+      this.onHome();
+    };
+    this.buttonContinue.onclick = () => {
+      this.onContinue();
     };
   }
   onRightButton() {
@@ -141,6 +170,49 @@ export class SprintPage {
       this.counterOfRandNum = 0;
     }
   }
+  renderResults() {
+    const layout = (item: Iword, container: HTMLDivElement) => {
+      const word = document.createElement("div");
+      word.classList.add("word");
+
+      const audioButton = document.createElement("button");
+      audioButton.classList.add("word__audio");
+      audioButton.innerHTML = `${playSvg}`;
+      const audio = new Audio();
+      audioButton.onclick = () => {
+        audio.src = `https://react-learnwords-example.herokuapp.com/${item.audio}`;
+        audio.play();
+        console.log("audio", item.audio);
+      };
+
+      const en = document.createElement("span");
+      en.classList.add("word__en");
+      en.innerHTML = `${item.word}`;
+
+      const ru = document.createElement("span");
+      ru.classList.add("word__ru");
+      ru.innerHTML = `${item.wordTranslate}`;
+
+      container.appendChild(word);
+      word.appendChild(audioButton);
+      word.appendChild(en);
+      word.appendChild(ru);
+    };
+    const rightContainer = document.createElement("div");
+    rightContainer.classList.add("result-right__list");
+    this.rightResultsNum.innerHTML = `${this.rightList.length}`;
+    this.rightList.forEach((item) => {
+      layout(item, rightContainer);
+    });
+    const wrongContainer = document.createElement("div");
+    wrongContainer.classList.add("result-wrong__list");
+    this.wrongResultsNum.innerHTML = `${this.wrongList.length}`;
+    this.wrongList.forEach((item) => {
+      layout(item, wrongContainer);
+    });
+    this.rightResults.appendChild(rightContainer);
+    this.wrongResults.appendChild(wrongContainer);
+  }
   timer() {
     let seconds: number = 30;
     const showTimer: () => void = () => {
@@ -149,9 +221,15 @@ export class SprintPage {
       if (seconds <= 0) {
         this.destroy();
         clearTimeout(this.timerId);
+        this.openResults();
       }
     };
     this.timerId = setInterval(showTimer, 1000);
+  }
+  openResults() {
+    this.destroy();
+    this.renderResults();
+    this.node.appendChild(this.results);
   }
   destroyCard() {
     this.node.innerHTML = "";
