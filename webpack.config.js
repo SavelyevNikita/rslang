@@ -72,12 +72,20 @@ const config = {
         ],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
+        test: /\.(svg)$/,
+        loader: 'svg-inline-loader'
       },
+      // {
+      //   test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+      //   type: "asset",
+      // },
     ],
   },
   resolve: {
+    alias: {
+      src: path.resolve(__dirname, "src/"),
+      assets: path.resolve(__dirname, "src/assets/"),
+    },
     extensions: [".tsx", ".ts", ".js"],
   },
 };
