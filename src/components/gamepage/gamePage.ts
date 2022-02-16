@@ -39,6 +39,7 @@ export class SprintPage {
   allWords: Iword[];
   randNumList: number[];
   counterOfRandNum: number;
+  timerId: any;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -94,6 +95,7 @@ export class SprintPage {
       button.onclick = () => {
         localStorage.setItem("lvl", `${button.dataset.lvl}`);
         this.renderGame();
+        this.timer();
       };
     });
   }
@@ -139,10 +141,23 @@ export class SprintPage {
       this.counterOfRandNum = 0;
     }
   }
+  timer() {
+    let seconds: number = 30;
+    const showTimer: () => void = () => {
+      seconds--;
+      this.time.innerHTML = `${seconds}`.padStart(2, "0");
+      if (seconds <= 0) {
+        this.destroy();
+        clearTimeout(this.timerId);
+      }
+    };
+    this.timerId = setInterval(showTimer, 1000);
+  }
   destroyCard() {
     this.node.innerHTML = "";
   }
   destroy() {
+    clearTimeout(this.timerId);
     this.node.innerHTML = "";
   }
 }
