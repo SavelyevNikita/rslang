@@ -1,7 +1,8 @@
 $text-color: #000000;
-$bg-color: #ece6cd;
+$bg-color: rgb(249 172 103 / 20%);
 $hover-button-color: #ee6a59;
 $button-color: #f9ac67;
+$right-answer-color:  #7e9864;
 
 .category {
   margin: 0 auto;
@@ -18,6 +19,7 @@ $button-color: #f9ac67;
   }
   &__text {
     font-size: 18px;
+    line-height: 24px;
     margin: 50px auto;
   }
   .category-list {
@@ -35,22 +37,22 @@ $button-color: #f9ac67;
     &:hover {
       background: $hover-button-color;
     }
-    &_1 {
+    &[data-lvl="1"] {
       background: #fdeddf;
     }
-    &_2 {
+    &[data-lvl="2"] {
       background: #fde5d0;
     }
-    &_3 {
+    &[data-lvl="3"] {
       background: #fcd6b5;
     }
-    &_4 {
+    &[data-lvl="4"] {
       background: #fbc99d;
     }
-    &_5 {
+    &[data-lvl="5"] {
       background: #fabb82;
     }
-    &_6 {
+    &[data-lvl="6"] {
       background: #f9ac67;
     }
   }
