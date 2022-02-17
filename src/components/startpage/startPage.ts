@@ -17,7 +17,8 @@ export class StartPage {
 
   onMain: () => void;
   onBook: () => void;
-  onGame: () => void;
+  onSprint: () => void;
+  onAudiocall: () => void;
   onStatistic: () => void;
   onSign: () => void;
   autorization: AutorizationPopUp;
@@ -32,7 +33,6 @@ export class StartPage {
     this.main = doc.querySelector(".home");
     this.mainButton = doc.querySelector(".nav__link_main");
     this.bookButton = doc.querySelector(".nav__link_book");
-    this.gameButton = doc.querySelector(".nav__link_game");
     this.sprintButton = doc.querySelector(".game-list__item_sprint");
     this.audiocallButton = doc.querySelector(".game-list__item_audiocall");
     this.statisticButton = doc.querySelector(".nav__link_statistics");
@@ -45,8 +45,11 @@ export class StartPage {
     this.bookButton.onclick = () => {
       this.onBook();
     };
-    this.gameButton.onclick = () => {
-      this.onGame();
+    this.sprintButton.onclick = () => {
+      this.onSprint();
+    };
+    this.audiocallButton.onclick = () => {
+      this.onAudiocall();
     };
     this.statisticButton.onclick = () => {
       this.onStatistic();

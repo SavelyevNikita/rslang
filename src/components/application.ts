@@ -31,7 +31,7 @@ export class Application {
     startPage.onMain = () => {
       startPage.destroy();
       startPage.render();
-    }
+    };
     startPage.onBook = () => {
       startPage.destroy();
       const categoryPage = new CategoryPage(startPage.startPageNode, this.isAutorised);

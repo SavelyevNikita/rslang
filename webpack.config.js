@@ -77,7 +77,6 @@ const config = {
         extensions: [".tsx", ".ts", ".js"],
     },
 };
-
 module.exports = () => {
     if (isProduction) {
         config.mode = "production";

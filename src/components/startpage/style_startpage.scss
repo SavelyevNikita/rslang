@@ -77,6 +77,21 @@ footer {
 }
 .game-list {
   display: none;
+  position: absolute;
+  padding-top: 10px;
+  &__item {
+    line-height: 20px;
+    padding: 5px;
+    margin: 5px 0;
+    background: $bg-color;
+    color: $text-color;
+  }
+}
+.nav__link_game:hover .game-list {
+  display: block;
+  .game-list__item:hover{
+    background: $button-color;
+  }
 }
 
 // .main {
@@ -88,8 +103,8 @@ footer {
   margin: 0 auto;
   max-width: 500px;
   &__text {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 24px;
   }
 }
 .footer {
