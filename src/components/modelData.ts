@@ -40,6 +40,11 @@ export class DataModel {
       return words;
     }
   }
+  addTocomplicated(word:Iword){
+    this.complicatedWords.push(word);
+    console.log(this.complicatedWords);
+  }
+
   getWordsDown(type: number) {
     if (this.page >= 0 && this.page < 30) {
       const words = this.getWords(type);
