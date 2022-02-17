@@ -16,7 +16,7 @@ export class CategoryPage {
   onSection5: () => void;
   onSection6: () => void;
   onSection7: () => void;
-  constructor(node: HTMLElement, isAutirised: boolean) {
+  constructor(node: HTMLElement, isNotEmpty: number) {
     this.node = node;
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('wrapper');
@@ -43,10 +43,10 @@ export class CategoryPage {
     this.wrapper.appendChild(this.section_7);
     this.node.appendChild(this.wrapper);
     this.events();
-    // if (isAutirised) {
-    //   this.section_7.classList.remove('hidden');
-    // } else
-    //   this.section_7.classList.add('hidden');
+    if (isNotEmpty === 0) {
+      this.section_7.classList.add('hidden');
+    } else
+      this.section_7.classList.remove('hidden');
   };
   events() {
     this.section_1.onclick = () => {

@@ -34,7 +34,8 @@ export class Application {
     }
     startPage.onBook = () => {
       startPage.destroy();
-      const categoryPage = new CategoryPage(startPage.startPageNode, this.isAutorised);
+      console.log(this.dataModel.complicatedWords.length);
+      const categoryPage = new CategoryPage(startPage.startPageNode, this.dataModel.complicatedWords.length);
       categoryPage.onSection1 = () => {
         this.bookPageCycle(startPage.startPageNode, 0, this.isAutorised);
       }
@@ -83,8 +84,8 @@ export class Application {
           console.log('add to favorite..');
         }
         bookCard.onComplicated = () => {
+          this.dataModel.addTocomplicated(item);
           console.log('add to complicated..')
-          this.dataModel.complicatedWords.push(item);
           console.log(this.dataModel.complicatedWords.length);
         }
       });
@@ -99,8 +100,8 @@ export class Application {
           console.log('add to favorite..');
         }
         bookCard.onComplicated = () => {
+          this.dataModel.addTocomplicated(item);
           console.log('add to complicated..')
-          this.dataModel.complicatedWords.push(item);
           console.log(this.dataModel.complicatedWords.length);
         }
       });
