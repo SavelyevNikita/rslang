@@ -55,6 +55,8 @@ export class DataModel {
   async getWords(type: number) {
     this.type = type;
     console.log(this.type);
+    localStorage.setItem('lvl', `${this.type}`);
+    localStorage.setItem('page', `${this.page}`);
     const myApi = await this.api.getWords(this.type, this.page);
     return await myApi;
   }
