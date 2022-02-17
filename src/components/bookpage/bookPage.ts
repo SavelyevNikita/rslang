@@ -12,7 +12,7 @@ export class BookPage {
     this.node = node;
     this.wrapper = document.createElement('div');
     this.cards = document.createElement('div');
-    this.cards.setAttribute('class', 'cards');
+    this.cards.classList.add('cards');
     this.head = document.createElement('p');
     this.next = document.createElement('button');
     this.next.textContent = 'Next';

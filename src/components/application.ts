@@ -9,14 +9,16 @@ import { AutorizationPopUp } from './authorization/index';
 
 export class Application {
   dataModel: DataModel;
+  isAutorised: boolean;
   constructor() {
     this.startpageCycle(false);
     this.dataModel = new DataModel();
   }
   private startpageCycle(isAutorised: boolean) {
+    this.isAutorised = isAutorised;
+    console.log(this.isAutorised);
     const startPage = new StartPage(document.body);
     startPage.autorization.onUser = (user) => {
-      console.log(user);
       if (user) {
         startPage.destroy();
         this.startpageCycle(true);
@@ -27,35 +29,33 @@ export class Application {
     };
     startPage.renderWholePage();
     startPage.onMain = () => {
-      console.log(this);
       startPage.destroy();
       startPage.render();
     }
     startPage.onBook = () => {
-      console.log(this);
       startPage.destroy();
-      const categoryPage = new CategoryPage(startPage.startPageNode, isAutorised);
+      const categoryPage = new CategoryPage(startPage.startPageNode, this.isAutorised);
       categoryPage.onSection1 = () => {
-        this.bookPageCycle(startPage.startPageNode, 0);
+        this.bookPageCycle(startPage.startPageNode, 0, this.isAutorised);
       }
       categoryPage.onSection2 = () => {
-        this.bookPageCycle(startPage.startPageNode, 1);
+        this.bookPageCycle(startPage.startPageNode, 1, this.isAutorised);
       }
       categoryPage.onSection3 = () => {
-        this.bookPageCycle(startPage.startPageNode, 2);
+        this.bookPageCycle(startPage.startPageNode, 2, this.isAutorised);
       }
       categoryPage.onSection4 = () => {
-        this.bookPageCycle(startPage.startPageNode, 3);
+        this.bookPageCycle(startPage.startPageNode, 3, this.isAutorised);
       }
       categoryPage.onSection5 = () => {
-        this.bookPageCycle(startPage.startPageNode, 4);
+        this.bookPageCycle(startPage.startPageNode, 4, this.isAutorised);
       }
       categoryPage.onSection6 = () => {
-        this.bookPageCycle(startPage.startPageNode, 5);
+        this.bookPageCycle(startPage.startPageNode, 5, this.isAutorised);
       }
       categoryPage.onSection7 = () => {
         console.log('is empty...')
-        this.bookPageCycle(startPage.startPageNode, 6);
+        this.bookPageCycle(startPage.startPageNode, 6, this.isAutorised);
       }
     }
     startPage.onGame = () => {
@@ -70,14 +70,14 @@ export class Application {
     }
   };
 
-  private bookPageCycle(node: HTMLElement, type: number) {
+  private bookPageCycle(node: HTMLElement, type: number, isAutorised: boolean) {
     const bookPage = new BookPage(node);
     bookPage.render('Book page');
     bookPage.onNext = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsUp(type);
       words.map((item: Iword) => {
-        const bookCard = new BookCard(bookPage.cards, item);
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
         bookCard.onFavorite = () => {
           console.log(item);
           console.log('add to favorite..');
@@ -93,7 +93,7 @@ export class Application {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsDown(type);
       words.map((item: Iword) => {
-        const bookCard = new BookCard(bookPage.cards, item);
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
         bookCard.onFavorite = () => {
           console.log(item);
           console.log('add to favorite..');

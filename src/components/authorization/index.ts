@@ -45,7 +45,6 @@ export class AutorizationPopUp {
       this.api.onSign = (obj: any) => {
         this.user = obj;
         document.querySelector('.signin').textContent = this.user.name;
-        console.log(this.user);
         this.onUser(this.user);
       }
       this.destroy();

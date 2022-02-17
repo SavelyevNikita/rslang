@@ -25,7 +25,7 @@ export class StartPage {
   constructor(node: HTMLElement) {
     this.node = node;
     const doc = document.createElement("div");
-    doc.setAttribute("class", "body");
+    doc.classList.add("body");
     doc.innerHTML = docHTML;
     this.div = doc;
     this.startPageNode = doc.querySelector(".main");
@@ -40,11 +40,9 @@ export class StartPage {
     this.signInWrapper = doc.querySelector(".signin-wrapper");
     this.autorization = new AutorizationPopUp();
     this.mainButton.onclick = () => {
-      console.log(this);
       this.onMain();
     };
     this.bookButton.onclick = () => {
-      console.log(this);
       this.onBook();
     };
     this.gameButton.onclick = () => {
