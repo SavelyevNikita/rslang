@@ -1,17 +1,32 @@
-import { StartPage } from "./startPage/startPage";
-import { CategoryPage } from "./bookPage/categoryPage";
-import { SprintPage } from "./gamePage/gamePage";
-import { StatisticPage } from "./statisticPage/statisticPage";
-import { DataModel } from "./modelData";
-import { BookPage } from "./bookpage/bookPage";
+import { StartPage } from './startPage/startPage';
+import { CategoryPage } from './bookPage/categoryPage';
+import { GamePage } from './gamePage/gamePage';
+import { StatisticPage } from './statisticPage/statisticPage';
+import { DataModel, Iword } from './modelData';
+import { BookPage } from './bookpage/bookPage';
+import { BookCard } from './bookpage/bookCard';
+import { AutorizationPopUp } from './authorization/index';
 
 export class Application {
   dataModel: DataModel;
+  isAutorised: boolean;
   constructor() {
-    this.startpageCycle();
+    this.startpageCycle(false);
+    this.dataModel = new DataModel();
   }
-  private startpageCycle() {
+  private startpageCycle(isAutorised: boolean) {
+    this.isAutorised = isAutorised;
+    console.log(this.isAutorised);
     const startPage = new StartPage(document.body);
+    startPage.autorization.onUser = (user) => {
+      if (user) {
+        startPage.destroy();
+        this.startpageCycle(true);
+      } else {
+        startPage.destroy();
+        this.startpageCycle(false);
+      }
+    };
     startPage.renderWholePage();
     startPage.onMain = () => {
       startPage.destroy();
@@ -19,110 +34,77 @@ export class Application {
     };
     startPage.onBook = () => {
       startPage.destroy();
-      const categoryPage = new CategoryPage(startPage.myNode);
+      const categoryPage = new CategoryPage(startPage.startPageNode, this.isAutorised);
       categoryPage.onSection1 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(0);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
+        this.bookPageCycle(startPage.startPageNode, 0, this.isAutorised);
+      }
       categoryPage.onSection2 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(1);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
+        this.bookPageCycle(startPage.startPageNode, 1, this.isAutorised);
+      }
       categoryPage.onSection3 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(2);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
+        this.bookPageCycle(startPage.startPageNode, 2, this.isAutorised);
+      }
       categoryPage.onSection4 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(5);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
+        this.bookPageCycle(startPage.startPageNode, 3, this.isAutorised);
+      }
       categoryPage.onSection5 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(4);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
+        this.bookPageCycle(startPage.startPageNode, 4, this.isAutorised);
+      }
       categoryPage.onSection6 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(5);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
+        this.bookPageCycle(startPage.startPageNode, 5, this.isAutorised);
+      }
       categoryPage.onSection7 = () => {
-        const bookPage = new BookPage(startPage.myNode);
-        bookPage.render("Book page");
-        this.dataModel = new DataModel(6);
-        bookPage.onNext = () => {
-          this.dataModel.getWordsUp();
-        };
-        bookPage.onPrev = () => {
-          this.dataModel.getWordsDown();
-        };
-      };
-    };
-    startPage.onSprint = () => {
+        console.log('is empty...')
+        this.bookPageCycle(startPage.startPageNode, 6, this.isAutorised);
+      }
+    }
+    startPage.onGame = () => {
       startPage.destroy();
-      const sprintPage = new SprintPage(startPage.myNode);
-      sprintPage.renderCategory();
-
-      sprintPage.onHome = () => {
-        startPage.destroy();
-        startPage.render();
-      };
-      sprintPage.onContinue = () => {
-        startPage.destroy();
-        const sprintPage = new SprintPage(startPage.myNode);
-        sprintPage.renderCategory();
-      };
-    };
-
-    // startPage.onAudiocall = () => {
-    //   startPage.destroy();
-    //   const AudiocallPage = new AudiocallPage(startPage.myNode);
-    //   AudiocallPage.render();
-    // }
+      const gamePage = new GamePage(startPage.startPageNode);
+      gamePage.render('Game page');
+    }
     startPage.onStatistic = () => {
       startPage.destroy();
-      const statisticPage = new StatisticPage(startPage.myNode);
-      statisticPage.render("Statistic Page");
+      const statisticPage = new StatisticPage(startPage.startPageNode);
+      statisticPage.render('Statistic Page');
+    }
+  };
+
+  private bookPageCycle(node: HTMLElement, type: number, isAutorised: boolean) {
+    const bookPage = new BookPage(node);
+    bookPage.render('Book page');
+    bookPage.onNext = async () => {
+      bookPage.destroyCards();
+      const words = await this.dataModel.getWordsUp(type);
+      words.map((item: Iword) => {
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
+        bookCard.onFavorite = () => {
+          console.log(item);
+          console.log('add to favorite..');
+        }
+        bookCard.onComplicated = () => {
+          console.log('add to complicated..')
+          this.dataModel.complicatedWords.push(item);
+          console.log(this.dataModel.complicatedWords.length);
+        }
+      });
+    }
+    bookPage.onPrev = async () => {
+      bookPage.destroyCards();
+      const words = await this.dataModel.getWordsDown(type);
+      words.map((item: Iword) => {
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
+        bookCard.onFavorite = () => {
+          console.log(item);
+          console.log('add to favorite..');
+        }
+        bookCard.onComplicated = () => {
+          console.log('add to complicated..')
+          this.dataModel.complicatedWords.push(item);
+          console.log(this.dataModel.complicatedWords.length);
+        }
+      });
     };
+    bookPage.onNext();
   }
 }

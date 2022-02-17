@@ -1,4 +1,4 @@
-import { api } from '../api/server'
+import { Api, HOST } from '../api/server'
 
 export interface Iword {
   audio: string;
@@ -20,27 +20,44 @@ export interface Iword {
 export class DataModel {
   type: number;
   page: number;
-  constructor(type: number) {
-    this.type = type;
+  complicatedWords: Iword[];
+  api: Api;
+  constructor() {
+    this.type = null;
     this.page = 0;
-    console.log(this.type);
+    this.complicatedWords = [];
+    this.api = new Api();
   }
-  getWordsUp() {
+  getWordsUp(type: number) {
     if (this.page >= 0 && this.page < 30) {
-      this.getWords();
+      const words = this.getWords(type);
       this.page += 1;
-    } else { this.page = 0; }
+      return words;
+    } else {
+      this.page = 0;
+      const words = this.getWords(type);
+      this.page += 1;
+      return words;
+    }
   }
-  getWordsDown() {
+  getWordsDown(type: number) {
     if (this.page >= 0 && this.page < 30) {
-      this.getWords();
+      const words = this.getWords(type);
       this.page -= 1;
-    } else { this.page = 29; }
+      return words;
+    } else {
+      this.page = 29;
+      const words = this.getWords(type);
+      this.page -= 1;
+      return words;
+    }
   }
-  private async getWords() {
-    const myApi = await api.getWords(this.type, this.page);
-    const myWord = myApi.map((item: Iword) => item);
-    console.log(myWord);
-
+  async getWords(type: number) {
+    this.type = type;
+    console.log(this.type);
+    localStorage.setItem('lvl', `${this.type}`);
+    localStorage.setItem('page', `${this.page}`);
+    const myApi = await this.api.getWords(this.type, this.page);
+    return await myApi;
   }
 }

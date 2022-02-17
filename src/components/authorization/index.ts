@@ -1,18 +1,34 @@
-import { api } from "./../../api/server";
+import { Api } from "./../../api/server";
 import signInHtml from "./signin.html";
 import registrationHTML from "./registration.html";
 import "./index.scss";
+interface IUser {
+  name?: string;
+  email: string;
+  password: string;
+  userId?: string;
+  token?: string;
+  refreshToken?: string;
+  message?: string;
+}
 
 export class AutorizationPopUp {
   wrapperHtml: HTMLDivElement;
   signInHtml: string;
   registrationHtml: string;
-
+  name: string;
+  email: string;
+  password: string;
+  user: IUser;
+  api: Api;
+  onUser: (user: IUser) => void;
   constructor() {
     this.wrapperHtml = document.createElement("div");
     this.wrapperHtml.classList.add("form-wrapper");
     this.signInHtml = signInHtml;
     this.registrationHtml = registrationHTML;
+    this.user = null;
+    this.api = new Api();
   }
   signIn() {
     const email = (document.getElementById("userEmail") as HTMLInputElement)
@@ -21,11 +37,16 @@ export class AutorizationPopUp {
       document.getElementById("userPassword") as HTMLInputElement
     ).value;
     if (email && password) {
-      const user = {
+      this.user = {
         email,
         password,
       };
-      api.signInUser(user);
+      this.api.signInUser(this.user);
+      this.api.onSign = (obj: any) => {
+        this.user = obj;
+        document.querySelector('.signin').textContent = this.user.name;
+        this.onUser(this.user);
+      }
       this.destroy();
     }
   }
@@ -56,12 +77,12 @@ export class AutorizationPopUp {
     ).value;
     if (name && email && password) {
       console.log("name", name, "email", email, "password", password);
-      const user = {
+      this.user = {
         name,
         email,
         password,
       };
-      api.createUser(user);
+      this.api.createUser(this.user);
       this.destroy();
     }
   }
@@ -84,9 +105,11 @@ export class AutorizationPopUp {
 
   removeForm = (event: Event) => {
     if (!(event.target as HTMLElement).closest(".form-wrapper")) {
-      console.log(event.target);
-      this.destroy();
-      document.removeEventListener("click", this.removeForm);
+      if (!(event.target as HTMLElement).closest(".form__container")) {
+        console.log(event.target);
+        this.destroy();
+        document.removeEventListener("click", this.removeForm);
+      }
     }
   };
   render(node: HTMLElement) {
@@ -101,4 +124,5 @@ export class AutorizationPopUp {
   signOut() {
     localStorage.setItem("user", ``);
   }
+
 }

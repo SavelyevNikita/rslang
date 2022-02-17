@@ -1,11 +1,11 @@
 // https://react-learnwords-example.herokuapp.com/words?group=0&page=0
-const HOST = "https://react-learnwords-example.herokuapp.com";
+export const HOST = "https://react-learnwords-example.herokuapp.com";
 
-
-
-export const api = {
+export class Api {
+  onSign: (content:string) => void;
+  constructor() { }
   async createUser(user: {
-    name:string,
+    name?: string,
     email: string,
     password: string,
   }) {
@@ -17,11 +17,14 @@ export const api = {
       },
       body: JSON.stringify(user),
     });
-    const content = await rawResponse.json();
-    localStorage.setItem("user", `${content}`);
-    console.log("###content", content);
-  },
-
+    if (rawResponse.status === 200) {
+      const content = await rawResponse.json();
+      localStorage.setItem("user", `${content}`);
+      // console.log("###content", content);
+    } else {
+      alert('регистрация не выполнена...')
+    }
+  };
 
   async signInUser(user: {
     email: string,
@@ -35,13 +38,27 @@ export const api = {
       },
       body: JSON.stringify(user),
     });
-    const content = await rawResponse.json();
-    localStorage.setItem("user", `${content}`);
-    console.log("###content", content);
-  },
-    async getWords(group: number, page: number) {
+    if (rawResponse.status === 200) {
+      const content = await rawResponse.json();
+      localStorage.setItem("user", `${content}`);
+      // console.log("###content", content);
+      this.onSign(content);
+    } else {
+      alert('вход не выполнен...')
+    }
+  };
+
+  async getWords(group: number, page: number) {
     const rawResponse = await fetch(`${HOST}/words?group=${group}&page=${page}`);
-    const rawWards = await rawResponse.json();
-    return rawWards;
-  },
+    if (rawResponse.status === 200) {
+      const rawWards = await rawResponse.json();
+      return rawWards;
+    } else {
+      alert('ошибка запроса слов...')
+    }
+  };
+  async getWordsId(group: number, page: number) {
+    console.log('empty')
+  };
+
 };
