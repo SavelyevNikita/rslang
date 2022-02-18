@@ -3,8 +3,9 @@ import { CategoryPage } from "./bookPage/categoryPage";
 import { SprintPage } from "./gamepage/sprint";
 import { AudiocallPage } from "./gamepage/audiocall";
 import { StatisticPage } from "./statisticPage/statisticPage";
-import { DataModel } from "./modelData";
+import { DataModel, Iword } from "./modelData";
 import { BookPage } from "./bookpage/bookPage";
+import { BookCard } from "./bookpage/bookCard";
 import { AutorizationPopUp } from './authorization/index';
 
 export class Application {
@@ -70,7 +71,7 @@ export class Application {
 
     startPage.onAudiocall = () => {
       startPage.destroy();
-      const audiocallPage = new AudiocallPage(startPage.myNode);
+      const audiocallPage = new AudiocallPage(startPage.startPageNode);
       audiocallPage.renderCategory();
       audiocallPage.startPage = startPage
     };

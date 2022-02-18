@@ -72,7 +72,6 @@ export class StartPage {
     this.startPageNode.innerHTML = "";
   }
   destroyWhole() {
-    // this.node.remove();
     this.node.innerHTML = "";
   }
 }
