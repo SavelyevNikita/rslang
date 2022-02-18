@@ -1,12 +1,11 @@
-import { StartPage } from './startPage/startPage';
-import { CategoryPage } from './bookPage/categoryPage';
-// import { GamePage } from './gamePage/gamePage';
-import { StatisticPage } from './statisticPage/statisticPage';
-import { DataModel, Iword } from './modelData';
-import { BookPage } from './bookpage/bookPage';
-import { BookCard } from './bookpage/bookCard';
+import { StartPage } from "./startPage/startPage";
+import { CategoryPage } from "./bookPage/categoryPage";
+import { SprintPage } from "./gamepage/sprint";
+import { AudiocallPage } from "./gamepage/audiocall";
+import { StatisticPage } from "./statisticPage/statisticPage";
+import { DataModel } from "./modelData";
+import { BookPage } from "./bookpage/bookPage";
 import { AutorizationPopUp } from './authorization/index';
-import { SprintPage } from "./gamePage/gamePage";
 
 export class Application {
   dataModel: DataModel;
@@ -64,17 +63,16 @@ export class Application {
       startPage.destroy();
       const sprintPage = new SprintPage(startPage.startPageNode);
       sprintPage.renderCategory();
-
-      sprintPage.onHome = () => {
-        startPage.destroy();
-        startPage.render();
-      };
-      sprintPage.onContinue = () => {
-        startPage.destroy();
-        const sprintPage = new SprintPage(startPage.startPageNode);
-        sprintPage.renderCategory();
-      };
+      sprintPage.startPage = startPage      
     };
+
+    startPage.onAudiocall = () => {
+      startPage.destroy();
+      const audiocallPage = new AudiocallPage(startPage.myNode);
+      audiocallPage.renderCategory();
+      audiocallPage.startPage = startPage
+    };
+
     startPage.onStatistic = () => {
       startPage.destroy();
       const statisticPage = new StatisticPage(startPage.startPageNode);
