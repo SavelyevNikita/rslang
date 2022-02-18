@@ -1,6 +1,8 @@
 import { StartPage } from "./startPage/startPage";
 import { CategoryPage } from "./bookPage/categoryPage";
-import { SprintPage } from "./gamePage/gamePage";
+import { SprintPage } from "./gamepage/sprint";
+import { AudiocallPage } from "./gamepage/audiocall";
+// import { ResultPage } from "./gamepage/result";
 import { StatisticPage } from "./statisticPage/statisticPage";
 import { DataModel } from "./modelData";
 import { BookPage } from "./bookpage/bookPage";
@@ -101,24 +103,38 @@ export class Application {
     startPage.onSprint = () => {
       startPage.destroy();
       const sprintPage = new SprintPage(startPage.myNode);
-      sprintPage.renderCategory();
+      sprintPage.renderCategory(); 
 
-      sprintPage.onHome = () => {
-        startPage.destroy();
-        startPage.render();
-      };
-      sprintPage.onContinue = () => {
-        startPage.destroy();
-        const sprintPage = new SprintPage(startPage.myNode);
-        sprintPage.renderCategory();
-      };
+      // const resultPage = new ResultPage()
+      // console.log('resultPage', resultPage)
+      // resultPage.onHome = () => {
+      //   startPage.destroy();
+      //   startPage.render();
+      // };
+      // resultPage.onContinue = () => {
+      //   startPage.destroy();
+      //   const sprintPage = new SprintPage(startPage.myNode);
+      //   sprintPage.renderCategory();
+      // };
     };
 
-    // startPage.onAudiocall = () => {
-    //   startPage.destroy();
-    //   const AudiocallPage = new AudiocallPage(startPage.myNode);
-    //   AudiocallPage.render();
-    // }
+    startPage.onAudiocall = () => {
+      startPage.destroy();
+      const audiocallPage = new AudiocallPage(startPage.myNode);
+      audiocallPage.renderCategory();
+
+      // const resultPage = new ResultPage();
+      // resultPage.onHome = () => {
+      //   console.log("resultPage", resultPage);
+      //   startPage.destroy();
+      //   startPage.render();
+      // };
+      // resultPage.onContinue = () => {
+      //   startPage.destroy();
+      //   const audiocallPage = new AudiocallPage(startPage.myNode);
+      //   audiocallPage.renderCategory();
+      // };
+    };
     startPage.onStatistic = () => {
       startPage.destroy();
       const statisticPage = new StatisticPage(startPage.myNode);
