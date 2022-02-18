@@ -32,9 +32,11 @@ export class AudiocallPage {
   randPage: number;
   randNumList: number[];
   allWords: Iword[];
+  allWrongWords: Iword[];
   wrongList: Iword[];
   rightList: Iword[];
   rightAnswer: Iword;
+  startPage: any;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -59,7 +61,7 @@ export class AudiocallPage {
 
     this.rightList = [];
     this.wrongList = [];
-    this.randPage = Math.floor(Math.random() * 19);
+    this.randPage = Math.floor(Math.random() * 29);
     this.wordIndex = 0;
     this.randNumList = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -94,7 +96,7 @@ export class AudiocallPage {
         button.innerHTML = `${this.rightAnswer.word}`;
       } else {
         const wrongRand = Math.floor(Math.random() * 19);
-        button.innerHTML = `${this.allWords[wrongRand].word}`;
+        button.innerHTML = `${this.allWrongWords[wrongRand].word}`;
       }
       button.onclick = () => {
         if (button.classList.contains("audiocall__version_right")) {
@@ -109,7 +111,6 @@ export class AudiocallPage {
   }
 
   async renderGame() {
-    debugger
     this.destroy();
     const lvl = +localStorage.getItem("lvl");
     const page = +localStorage.getItem("page");
@@ -122,6 +123,10 @@ export class AudiocallPage {
       const myApi: any = await api.getWords(lvl, page);
       this.allWords = myApi.map((item: Iword) => item);
     }
+    const randPage = Math.floor(Math.random() * 29)
+    const myApi: any = await api.getWords(lvl, randPage);
+    this.allWrongWords = myApi.map((item: Iword) => item);
+
     if (this.wordIndex === this.randNumList.length) {
       this.openResults();
     } else {
@@ -134,8 +139,15 @@ export class AudiocallPage {
   }
   openResults() {
     this.destroy();
-    const resultPage = new ResultPage()
+    const resultPage = new ResultPage();
     resultPage.renderResults(this);
+    resultPage.onHome = () => {
+      this.destroy();
+      this.startPage.render();
+    };
+    resultPage.onContinue = () => {
+      this.startPage.onAudiocall()
+    };
     this.node.appendChild(resultPage.results);
   }
   destroy() {

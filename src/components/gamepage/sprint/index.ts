@@ -1,11 +1,8 @@
 import { api } from "./../../../api/server";
 import categoryHtml from "./../category.html";
 import { ResultPage } from "./../result";
-// import resultsHTML from "./../result.html";
 import cardHTML from "./sprint.html";
-// import playSvg from "./../../../assets/play-button.svg";
 import "./index.scss";
-// import "./../index.scss";
 interface Iword {
   audio: string;
   audioExample: string;
@@ -33,12 +30,7 @@ export class SprintPage {
   wordRussian: HTMLDivElement;
   wrongButton: HTMLButtonElement;
   rightButton: HTMLButtonElement;
-  // rightResults: HTMLDivElement;
-  // wrongResults: HTMLDivElement;
-  // rightResultsNum: HTMLDivElement;
-  // wrongResultsNum: HTMLDivElement;
-  // buttonHome: HTMLButtonElement;
-  // buttonContinue: HTMLButtonElement;
+  startPage: any;
   page: number;
   wrongList: Iword[];
   rightList: Iword[];
@@ -156,7 +148,7 @@ export class SprintPage {
   }
 
   timer() {
-    let seconds: number = 3;
+    let seconds: number = 30;
     const showTimer: () => void = () => {
       seconds--;
       this.time.innerHTML = `${seconds}`.padStart(2, "0");
@@ -172,13 +164,19 @@ export class SprintPage {
     this.destroy();
     const resultPage = new ResultPage();
     resultPage.renderResults(this);
+    resultPage.onHome = () => {
+      this.destroyCard();
+      this.startPage.render();
+    };
+    resultPage.onContinue = () => {
+      this.startPage.onSprint()
+    };
     this.node.appendChild(resultPage.results);
   }
   destroyCard() {
     this.node.innerHTML = "";
   }
   destroy() {
-    console.log('destroy')
     clearTimeout(this.timerId);
     this.node.innerHTML = "";
   }

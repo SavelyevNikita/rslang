@@ -1,8 +1,5 @@
 import resultsHTML from "./result.html";
 import "./index.scss";
-import { StartPage } from "./../../startPage/startPage";
-import { SprintPage } from "./../sprint";
-import { AudiocallPage } from "./../audiocall";
 interface Iword {
   audio: string;
   audioExample: string;
@@ -17,8 +14,8 @@ interface Iword {
   transcription: string;
   word: string;
   wordTranslate: string;
-  // onHome: () => void;
-  // onContinue: () => void;
+  onHome: () => void;
+  onContinue: () => void;
 }
 export class ResultPage {
   results: HTMLDivElement;
@@ -41,25 +38,15 @@ export class ResultPage {
     this.buttonContinue = results.querySelector(
       ".game-result__button_continue"
     );
-
-    // this.buttonHome.onclick = () => {
-    //   this.onHome();
-    // };
-    // this.buttonContinue.onclick = () => {
-    //   this.onContinue();
-    // };
+    this.buttonHome.onclick = () => {
+      this.onHome();
+    };
+    this.buttonContinue.onclick = () => {
+      this.onContinue();
+    };
   }
-  // onContinue() {
-  //   const startPage = new StartPage(document.body);
-  //   let gamePage: any;
-  //   if ((this.gamePagestr = "audiocall")) {
-  //     gamePage = new AudiocallPage(startPage.myNode);
-  //   } else if ((this.gamePagestr = "sprint")) {
-  //     gamePage = new SprintPage(startPage.myNode);
-  //   }
-  //   startPage.destroy();
-  //   gamePage.renderCategory();
-  // }
+  onHome = () => {}
+  onContinue = () => {}
   renderResults(gamePage: any) {
     const layout = (item: Iword, container: HTMLDivElement) => {
       const word = document.createElement("div");
