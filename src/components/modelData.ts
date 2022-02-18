@@ -1,4 +1,4 @@
-import { Api, HOST } from '../api/server'
+import { api, HOST } from '../api/server'
 
 export interface Iword {
   audio: string;
@@ -21,12 +21,10 @@ export class DataModel {
   type: number;
   page: number;
   complicatedWords: Iword[];
-  api: Api;
   constructor() {
     this.type = null;
     this.page = 0;
     this.complicatedWords = [];
-    this.api = new Api();
   }
   getWordsUp(type: number) {
     if (this.page >= 0 && this.page < 30) {
@@ -62,7 +60,7 @@ export class DataModel {
     console.log(this.type);
     localStorage.setItem('lvl', `${this.type}`);
     localStorage.setItem('page', `${this.page}`);
-    const myApi = await this.api.getWords(this.type, this.page);
+    const myApi = await api.getWords(this.type, this.page);
     return await myApi;
   }
 }

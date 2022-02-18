@@ -1,4 +1,4 @@
-import { Api } from "./../../api/server";
+import { api } from "./../../api/server";
 import signInHtml from "./signin.html";
 import registrationHTML from "./registration.html";
 import "./index.scss";
@@ -20,7 +20,6 @@ export class AutorizationPopUp {
   email: string;
   password: string;
   user: IUser;
-  api: Api;
   onUser: (user: IUser) => void;
   constructor() {
     this.wrapperHtml = document.createElement("div");
@@ -28,9 +27,8 @@ export class AutorizationPopUp {
     this.signInHtml = signInHtml;
     this.registrationHtml = registrationHTML;
     this.user = null;
-    this.api = new Api();
   }
-  signIn() {
+  async signIn() {
     const email = (document.getElementById("userEmail") as HTMLInputElement)
       .value;
     const password = (
@@ -41,31 +39,29 @@ export class AutorizationPopUp {
         email,
         password,
       };
-      this.api.signInUser(this.user);
-      this.api.onSign = (obj: any) => {
-        this.user = obj;
-        document.querySelector('.signin').textContent = this.user.name;
+      const onSign = await api.signInUser(this.user);
+      if (onSign) {
         this.onUser(this.user);
+        document.querySelector('.signin').textContent = onSign.name;
       }
       this.destroy();
-    }
-  }
-
+    };
+  };
   openSignIn() {
     this.wrapperHtml.innerHTML = this.signInHtml;
     console.log("openSignIn");
     const buttonRegistration = document.getElementById("openRegistration");
     if (buttonRegistration) {
       buttonRegistration.onclick = () => this.openRegistration();
-    }
+    };
     const buttonSubmit = document.getElementById("signIn");
     if (buttonSubmit) {
       buttonSubmit.onsubmit = (event) => {
         event.preventDefault();
         this.signIn();
       };
-    }
-  }
+    };
+  };
 
   registration() {
     const name = (document.getElementById("userName") as HTMLInputElement)
@@ -82,10 +78,10 @@ export class AutorizationPopUp {
         email,
         password,
       };
-      this.api.createUser(this.user);
+      api.createUser(this.user);
       this.destroy();
-    }
-  }
+    };
+  };
 
   openRegistration() {
     this.wrapperHtml.innerHTML = this.registrationHtml;
@@ -100,8 +96,8 @@ export class AutorizationPopUp {
         event.preventDefault();
         this.registration();
       };
-    }
-  }
+    };
+  };
 
   removeForm = (event: Event) => {
     if (!(event.target as HTMLElement).closest(".form-wrapper")) {
@@ -109,20 +105,19 @@ export class AutorizationPopUp {
         console.log(event.target);
         this.destroy();
         document.removeEventListener("click", this.removeForm);
-      }
-    }
+      };
+    };
   };
   render(node: HTMLElement) {
     if (!document.querySelector(".form-wrapper")) {
       node.appendChild(this.wrapperHtml);
       this.openSignIn();
-    }
-  }
+    };
+  };
   destroy() {
     this.wrapperHtml.remove();
-  }
+  };
   signOut() {
     localStorage.setItem("user", ``);
-  }
-
-}
+  };
+};

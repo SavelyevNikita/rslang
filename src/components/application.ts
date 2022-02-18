@@ -1,11 +1,12 @@
 import { StartPage } from './startPage/startPage';
 import { CategoryPage } from './bookPage/categoryPage';
-import { GamePage } from './gamePage/gamePage';
+// import { GamePage } from './gamePage/gamePage';
 import { StatisticPage } from './statisticPage/statisticPage';
 import { DataModel, Iword } from './modelData';
 import { BookPage } from './bookpage/bookPage';
 import { BookCard } from './bookpage/bookCard';
 import { AutorizationPopUp } from './authorization/index';
+import { SprintPage } from "./gamePage/gamePage";
 
 export class Application {
   dataModel: DataModel;
@@ -59,11 +60,21 @@ export class Application {
         this.bookPageCycle(startPage.startPageNode, 6, this.isAutorised);
       }
     }
-    startPage.onGame = () => {
+    startPage.onSprint = () => {
       startPage.destroy();
-      const gamePage = new GamePage(startPage.startPageNode);
-      gamePage.render('Game page');
-    }
+      const sprintPage = new SprintPage(startPage.startPageNode);
+      sprintPage.renderCategory();
+
+      sprintPage.onHome = () => {
+        startPage.destroy();
+        startPage.render();
+      };
+      sprintPage.onContinue = () => {
+        startPage.destroy();
+        const sprintPage = new SprintPage(startPage.startPageNode);
+        sprintPage.renderCategory();
+      };
+    };
     startPage.onStatistic = () => {
       startPage.destroy();
       const statisticPage = new StatisticPage(startPage.startPageNode);

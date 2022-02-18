@@ -1,9 +1,7 @@
 // https://react-learnwords-example.herokuapp.com/words?group=0&page=0
 export const HOST = "https://react-learnwords-example.herokuapp.com";
 
-export class Api {
-  onSign: (content:string) => void;
-  constructor() { }
+export const api = {
   async createUser(user: {
     name?: string,
     email: string,
@@ -24,7 +22,7 @@ export class Api {
     } else {
       alert('регистрация не выполнена...')
     }
-  };
+  },
 
   async signInUser(user: {
     email: string,
@@ -41,12 +39,11 @@ export class Api {
     if (rawResponse.status === 200) {
       const content = await rawResponse.json();
       localStorage.setItem("user", `${content}`);
-      // console.log("###content", content);
-      this.onSign(content);
+      return content;
     } else {
       alert('вход не выполнен...')
     }
-  };
+  },
 
   async getWords(group: number, page: number) {
     const rawResponse = await fetch(`${HOST}/words?group=${group}&page=${page}`);
@@ -56,9 +53,8 @@ export class Api {
     } else {
       alert('ошибка запроса слов...')
     }
-  };
+  },
   async getWordsId(group: number, page: number) {
     console.log('empty')
-  };
-
+  },
 };
