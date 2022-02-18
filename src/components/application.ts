@@ -16,14 +16,16 @@ export class Application {
   }
   private startpageCycle(isAutorised: boolean) {
     this.isAutorised = isAutorised;
-    console.log(this.isAutorised);
+    // console.log(this.isAutorised);
     const startPage = new StartPage(document.body);
     startPage.autorization.onUser = (user) => {
       if (user) {
-        startPage.destroy();
+        console.log('user');
+        startPage.destroyWhole();
         this.startpageCycle(true);
       } else {
-        startPage.destroy();
+        console.log('no user');
+        startPage.destroyWhole();
         this.startpageCycle(false);
       }
     };
@@ -55,8 +57,8 @@ export class Application {
         this.bookPageCycle(startPage.startPageNode, 5, this.isAutorised);
       }
       categoryPage.onSection7 = () => {
-        console.log('is empty...')
-        this.bookPageCycle(startPage.startPageNode, 6, this.isAutorised);
+        // console.log('is empty...')
+        this.bookPageCycleSeven(startPage.startPageNode, 6, this.isAutorised);
       }
     }
     startPage.onSprint = () => {
@@ -97,6 +99,43 @@ export class Application {
           console.log('add to complicated..')
           console.log(this.dataModel.complicatedWords.length);
         }
+      });
+    }
+    bookPage.onPrev = async () => {
+      bookPage.destroyCards();
+      const words = await this.dataModel.getWordsDown(type);
+      words.map((item: Iword) => {
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
+        bookCard.onFavorite = () => {
+          console.log(item);
+          console.log('add to favorite..');
+        }
+        bookCard.onComplicated = () => {
+          this.dataModel.addTocomplicated(item);
+          console.log('add to complicated..')
+          console.log(this.dataModel.complicatedWords.length);
+        }
+      });
+    };
+    bookPage.onNext();
+  }
+  private bookPageCycleSeven(node: HTMLElement, type: number, isAutorised: boolean) {
+    const bookPage = new BookPage(node);
+    bookPage.render('Book page');
+    bookPage.onNext = async () => {
+      bookPage.destroyCards();
+      const words = this.dataModel.complicatedWords;
+      words.map((item: Iword) => {
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
+        // bookCard.onFavorite = () => {
+        //   console.log(item);
+        //   console.log('add to favorite..');
+        // }
+        // bookCard.onComplicated = () => {
+        //   this.dataModel.addTocomplicated(item);
+        //   console.log('add to complicated..')
+        //   console.log(this.dataModel.complicatedWords.length);
+        // }
       });
     }
     bookPage.onPrev = async () => {
