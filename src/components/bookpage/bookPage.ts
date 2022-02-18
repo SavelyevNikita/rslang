@@ -8,6 +8,7 @@ export class BookPage {
   onNext: () => void;
   onPrev: () => void;
   cards: HTMLDivElement;
+  onshow: () => Promise<void>;
   constructor(node: HTMLElement) {
     this.node = node;
     this.wrapper = document.createElement('div');

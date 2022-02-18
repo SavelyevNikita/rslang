@@ -20,11 +20,11 @@ export interface Iword {
 export class DataModel {
   type: number;
   page: number;
-  complicatedWords: Iword[];
+  complicatedWords: any;
   constructor() {
     this.type = null;
     this.page = 0;
-    this.complicatedWords = [];
+    this.complicatedWords = new Set();
   }
   getWordsUp(type: number) {
     if (this.page >= 0 && this.page < 30) {
@@ -38,8 +38,8 @@ export class DataModel {
       return words;
     }
   }
-  addTocomplicated(word:Iword){
-    this.complicatedWords.push(word);
+  addTocomplicated(word: Iword) {
+    this.complicatedWords.add(word);
     console.log(this.complicatedWords);
   }
 
