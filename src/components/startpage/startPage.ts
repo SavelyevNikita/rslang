@@ -12,7 +12,7 @@ export class StartPage {
   signInButton: HTMLButtonElement;
   signInWrapper: HTMLDivElement;
   main: HTMLElement;
-  myNode: HTMLDivElement;
+  startPageNode: HTMLDivElement;
   node: HTMLElement;
 
   onMain: () => void;
@@ -20,14 +20,16 @@ export class StartPage {
   onSprint: () => void;
   onAudiocall: () => void;
   onStatistic: () => void;
+  onSign: () => void;
+  autorization: AutorizationPopUp;
 
   constructor(node: HTMLElement) {
     this.node = node;
     const doc = document.createElement("div");
-    doc.setAttribute("class", "body");
+    doc.classList.add("body");
     doc.innerHTML = docHTML;
     this.div = doc;
-    this.myNode = doc.querySelector(".main");
+    this.startPageNode = doc.querySelector(".main");
     this.main = doc.querySelector(".home");
     this.mainButton = doc.querySelector(".nav__link_main");
     this.bookButton = doc.querySelector(".nav__link_book");
@@ -36,7 +38,7 @@ export class StartPage {
     this.statisticButton = doc.querySelector(".nav__link_statistics");
     this.signInButton = doc.querySelector(".signin");
     this.signInWrapper = doc.querySelector(".signin-wrapper");
-
+    this.autorization = new AutorizationPopUp();
     this.mainButton.onclick = () => {
       this.onMain();
     };
@@ -53,22 +55,20 @@ export class StartPage {
       this.onStatistic();
     };
     this.signInButton.onclick = () => {
-      const autorizationPopUp = new AutorizationPopUp();
-      autorizationPopUp.render(this.signInWrapper);
+      this.autorization.render(this.signInWrapper);
       setTimeout(() => {
-        document.addEventListener("click", autorizationPopUp.removeForm);
+        document.addEventListener("click", this.autorization.removeForm);
       }, 300);
     };
   }
   render() {
-    this.myNode.appendChild(this.main);
+    this.startPageNode.appendChild(this.main);
   }
   renderWholePage() {
-    console.log("this.node", this.node);
     this.node.appendChild(this.div);
   }
   destroy() {
-    this.myNode.innerHTML = "";
+    this.startPageNode.innerHTML = "";
   }
   destroyWhole() {
     this.node.remove();
