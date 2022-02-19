@@ -3,6 +3,11 @@ import categoryHtml from "./../category.html";
 import { ResultPage } from "./../result";
 import cardHTML from "./sprint.html";
 import "./index.scss";
+import {
+  correctAnswerAudio,
+  wrongAnswerAudio,
+  endRaundAudio,
+} from "./../../../assets/audio/index";
 interface Iword {
   audio: string;
   audioExample: string;
@@ -40,6 +45,9 @@ export class SprintPage {
   randNumList: number[];
   counterOfRandNum: number;
   timerId: any;
+  audioCorrect: HTMLAudioElement;
+  audioWrong: HTMLAudioElement;
+  audioEndRaund: HTMLAudioElement
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -76,19 +84,32 @@ export class SprintPage {
     this.rightButton.onclick = () => {
       this.onRightButton();
     };
+    const audioCorrect = new Audio();
+    this.audioCorrect = audioCorrect;
+    this.audioCorrect.src = correctAnswerAudio;
+    const audioWrong = new Audio();
+    this.audioWrong = audioWrong;
+    this.audioWrong.src = wrongAnswerAudio;
+    const audioEndRaund = new Audio();
+    this.audioEndRaund = audioEndRaund;
+    this.audioEndRaund.src = endRaundAudio;
   }
   onRightButton() {
     if (this.answerRand) {
+      this.audioCorrect.play();
       this.rightList.push(this.allWords[this.rightRand]);
     } else {
+      this.audioWrong.play();
       this.wrongList.push(this.allWords[this.rightRand]);
     }
     this.renderGame();
   }
   onWrongButton() {
     if (!this.answerRand) {
+      this.audioCorrect.play();
       this.rightList.push(this.allWords[this.rightRand]);
     } else {
+      this.audioWrong.play();
       this.wrongList.push(this.allWords[this.rightRand]);
     }
     this.renderGame();
@@ -162,6 +183,7 @@ export class SprintPage {
   }
   openResults() {
     this.destroy();
+    this.audioEndRaund.play()
     const resultPage = new ResultPage();
     resultPage.renderResults(this);
     resultPage.onHome = () => {

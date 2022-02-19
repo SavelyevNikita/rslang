@@ -3,6 +3,11 @@ import categoryHtml from "./../category.html";
 import { ResultPage } from "./../result";
 import cardHTML from "./index.html";
 import "./index.scss";
+import {
+  correctAnswerAudio,
+  wrongAnswerAudio,
+  endRaundAudio,
+} from "./../../../assets/audio/index";
 interface Iword {
   audio: string;
   audioExample: string;
@@ -35,8 +40,10 @@ export class AudiocallPage {
   allWrongWords: Iword[];
   wrongList: Iword[];
   rightList: Iword[];
-  rightAnswer: Iword;
   startPage: any;
+  audioCorrect: HTMLAudioElement;
+  audioWrong: HTMLAudioElement;
+  audioEndRaund: HTMLAudioElement
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -68,6 +75,16 @@ export class AudiocallPage {
     ].sort(function () {
       return Math.random() - 0.5;
     });
+
+    const audioCorrect = new Audio();
+    this.audioCorrect = audioCorrect;
+    this.audioCorrect.src = correctAnswerAudio;
+    const audioWrong = new Audio();
+    this.audioWrong = audioWrong;
+    this.audioWrong.src = wrongAnswerAudio;
+    const audioEndRaund = new Audio();
+    this.audioEndRaund = audioEndRaund;
+    this.audioEndRaund.src = endRaundAudio;
   }
   chooseLvl() {
     const arrLvlButton = document.querySelectorAll(".category__item");
@@ -93,16 +110,20 @@ export class AudiocallPage {
       }
       if (index === this.answerRight) {
         button.classList.add("audiocall__version_right");
-        button.innerHTML = `${this.rightAnswer.word}`;
+        button.innerHTML = `${
+          this.allWords[this.randNumList[this.wordIndex]].word
+        }`;
       } else {
         const wrongRand = Math.floor(Math.random() * 19);
         button.innerHTML = `${this.allWrongWords[wrongRand].word}`;
       }
       button.onclick = () => {
         if (button.classList.contains("audiocall__version_right")) {
-          this.rightList.push(this.rightAnswer);
+          this.audioCorrect.play();
+          this.rightList.push(this.allWords[this.randNumList[this.wordIndex]]);
         } else {
-          this.wrongList.push(this.rightAnswer);
+          this.audioWrong.play();
+          this.wrongList.push(this.allWords[this.randNumList[this.wordIndex]]);
         }
         this.renderGame();
         this.wordIndex++;
@@ -117,13 +138,12 @@ export class AudiocallPage {
     if (!page) {
       const myApi: any = await api.getWords(lvl, this.randPage);
       this.allWords = myApi.map((item: Iword) => item);
-      this.rightAnswer = this.allWords[this.randNumList[this.wordIndex]];
     }
     if (page && lvl) {
       const myApi: any = await api.getWords(lvl, page);
       this.allWords = myApi.map((item: Iword) => item);
     }
-    const randPage = Math.floor(Math.random() * 29)
+    const randPage = Math.floor(Math.random() * 29);
     const myApi: any = await api.getWords(lvl, randPage);
     this.allWrongWords = myApi.map((item: Iword) => item);
 
@@ -131,7 +151,9 @@ export class AudiocallPage {
       this.openResults();
     } else {
       this.chooseRightAnswer();
-      this.audio.src = `https://react-learnwords-example.herokuapp.com/${this.rightAnswer.audio}`;
+      this.audio.src = `https://react-learnwords-example.herokuapp.com/${
+        this.allWords[this.randNumList[this.wordIndex]].audio
+      }`;
       this.audio.play();
       this.node.appendChild(this.game);
       this.points.innerHTML = `${this.rightList.length}`;
@@ -139,6 +161,7 @@ export class AudiocallPage {
   }
   openResults() {
     this.destroy();
+    this.audioEndRaund.play()
     const resultPage = new ResultPage();
     resultPage.renderResults(this);
     resultPage.onHome = () => {
@@ -146,7 +169,7 @@ export class AudiocallPage {
       this.startPage.render();
     };
     resultPage.onContinue = () => {
-      this.startPage.onAudiocall()
+      this.startPage.onAudiocall();
     };
     this.node.appendChild(resultPage.results);
   }
