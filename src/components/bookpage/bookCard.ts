@@ -32,14 +32,15 @@ export class BookCard {
   wrapper: HTMLDivElement;
   playButton: HTMLButtonElement;
   onPlay: () => void;
-  favoriteButton: HTMLButtonElement;
+  studiedButton: HTMLButtonElement;
   complicatedButton: HTMLButtonElement;
   wrapperButton: HTMLDivElement;
-  onFavorite: () => void;
+  onStudied: () => void;
   onComplicated: () => void;
   constructor(node: HTMLElement, option: IOPtion, isAutorised: boolean) {
     this.node = node;
     this.wrapperText = document.createElement('div');
+    this.wrapperText.classList.add('wrapper-text');
     this.wrapperButton = document.createElement('div');
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('card');
@@ -74,13 +75,13 @@ export class BookCard {
 
     this.playButton = document.createElement('button');
     this.playButton.classList.add('play-button');
-    this.favoriteButton = document.createElement('button');
-    this.favoriteButton.classList.add('favorite-button');
+    this.studiedButton = document.createElement('button');
+    this.studiedButton.classList.add('favorite-button');
     this.complicatedButton = document.createElement('button');
     this.complicatedButton.classList.add('complicated-button');
 
     this.wrapperButton.appendChild(this.playButton);
-    this.wrapperButton.appendChild(this.favoriteButton);
+    this.wrapperButton.appendChild(this.studiedButton);
     this.wrapperButton.appendChild(this.complicatedButton);
 
     this.wrapper.appendChild(this.image);
@@ -89,10 +90,10 @@ export class BookCard {
     this.node.appendChild(this.wrapper);
     this.events(option);
     if (isAutorised) {
-      this.favoriteButton.classList.remove('hidden');
+      this.studiedButton.classList.remove('hidden');
       this.complicatedButton.classList.remove('hidden');
     } else {
-      this.favoriteButton.classList.add('hidden');
+      this.studiedButton.classList.add('hidden');
       this.complicatedButton.classList.add('hidden');
     }
   }
@@ -112,8 +113,8 @@ export class BookCard {
         }
       }
     }
-    this.favoriteButton.onclick = () => {
-      this.onFavorite();
+    this.studiedButton.onclick = () => {
+      this.onStudied();
     };
     this.complicatedButton.onclick = () => {
       this.onComplicated();

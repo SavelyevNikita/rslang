@@ -12,17 +12,20 @@ export class BookPage {
   constructor(node: HTMLElement) {
     this.node = node;
     this.wrapper = document.createElement('div');
+    this.wrapper.classList.add('book-page__wrapper');
     this.cards = document.createElement('div');
     this.cards.classList.add('cards');
     this.head = document.createElement('p');
     this.next = document.createElement('button');
-    this.next.textContent = 'Next';
+    this.next.textContent = 'Вперед';
+    this.next.classList.add('forward');
     this.prev = document.createElement('button');
-    this.prev.textContent = 'Prev';
+    this.prev.textContent = 'Назад';
+    this.prev.classList.add('back');
   };
   render(nameOfPage: string) {
-    this.head.textContent = (`${nameOfPage}`);
-    this.wrapper.appendChild(this.head);
+    // this.head.textContent = (`${nameOfPage}`);
+    // this.wrapper.appendChild(this.head);
     this.wrapper.appendChild(this.prev);
     this.wrapper.appendChild(this.next);
     this.node.appendChild(this.wrapper);
