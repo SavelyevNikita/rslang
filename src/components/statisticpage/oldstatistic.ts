@@ -56,7 +56,6 @@ export class OldStatistics {
       this.myApi.optional.correctAnswerInRowInSprint;
 
     this.newWords = JSON.parse(this.myApi.optional.newWords);
-    console.log("old", this.newWords, this.myApi.optional.newWords);
     this.allRaunds = this.myApi.optional.allRaunds;
     this.allRightAnswers = this.myApi.optional.allRightAnswers;
     this.learnedWords = JSON.parse(this.myApi.optional.learnedWords);
