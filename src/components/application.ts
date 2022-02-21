@@ -3,7 +3,7 @@ import { CategoryPage } from "./bookPage/categoryPage";
 import { SprintPage } from "./gamepage/sprint";
 import { AudiocallPage } from "./gamepage/audiocall";
 import { StatisticPage } from "./statisticPage/statisticPage";
-import { DataModel, Iword } from "./modelData";
+import { DataModel, Iword, Itotalword } from "./modelData";
 import { BookPage } from "./bookpage/bookPage";
 import { BookCard } from "./bookpage/bookCard";
 import { AutorizationPopUp } from './authorization/index';
@@ -88,8 +88,7 @@ export class Application {
     bookPage.onNext = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsUp(type);
-      words.forEach(async (item: Iword) => {
-        console.log(item);
+      words.forEach(async (item: Itotalword) => {
         // const bookCard = new BookCard(bookPage.cards, item, isAutorised, 'add', isComplicated, isStudied);
         const bookCard = await new BookCard(bookPage.cards, item, isAutorised, 'add');
         bookCard.onStudied = () => {
@@ -103,7 +102,7 @@ export class Application {
     bookPage.onPrev = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsDown(type);
-      words.forEach(async (item: Iword) => {
+      words.forEach(async (item: Itotalword) => {
         console.log(item);
         const bookCard = await new BookCard(bookPage.cards, item, isAutorised, 'add');
         bookCard.onStudied = () => {
@@ -122,7 +121,7 @@ export class Application {
     bookPage.onshow = async () => {
       bookPage.destroyCards();
       const words = this.dataModel.complicatedWords;
-      words.forEach((item: Iword) => {
+      words.forEach((item: Itotalword) => {
         const bookCard = new BookCard(bookPage.cards, item, isAutorised, 'remove');
         bookCard.onRemoveComplicated = () => {
           this.dataModel.removeToComplicated(item);

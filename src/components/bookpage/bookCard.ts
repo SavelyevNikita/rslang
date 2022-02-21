@@ -1,20 +1,6 @@
-import { HOST } from '../../api/server'
-export interface IOPtion {
-  id: string,
-  group: number,
-  page: number,
-  word: string,
-  image: string,
-  audio: string,
-  audioMeaning: string,
-  audioExample: string,
-  textMeaning: string,
-  textExample: string,
-  transcription: string,
-  textExampleTranslate: string,
-  textMeaningTranslate: string,
-  wordTranslate: string
-}
+import { HOST } from '../../api/server';
+import { Itotalword } from '../modelData';
+
 export class BookCard {
   node: HTMLElement;
   word: HTMLParagraphElement;
@@ -39,10 +25,17 @@ export class BookCard {
   onComplicated: () => void;
   removeComplicatedButton: HTMLButtonElement;
   onRemoveComplicated: () => void;
-  constructor(node: HTMLElement, option: IOPtion, isAutorised: boolean, type: string) {
+  wrapperOption: HTMLDivElement;
+  isStudied: HTMLParagraphElement;
+  isСomplicated: HTMLParagraphElement;
+  rightAnswer: HTMLParagraphElement;
+  used: HTMLParagraphElement;
+  constructor(node: HTMLElement, option: Itotalword, isAutorised: boolean, type: string) {
     this.node = node;
     this.wrapperText = document.createElement('div');
     this.wrapperText.classList.add('wrapper-text');
+    this.wrapperOption = document.createElement('div');
+    this.wrapperOption.classList.add('wrapper-option');
     this.wrapperButton = document.createElement('div');
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('card');
@@ -53,7 +46,7 @@ export class BookCard {
     this.word.innerHTML = option.word;
     this.image = document.createElement('img');
     this.image.classList.add('pic');
-    this.image.alt=option.word;
+    this.image.alt = option.word;
     this.image.src = `${HOST}/${option.image}`;
     this.audio = document.createElement('audio');
     this.audio.src = `${HOST}/${option.audio}`;
@@ -69,6 +62,32 @@ export class BookCard {
     this.textMeaningTranslate.innerHTML = option.textMeaningTranslate;
     this.wordTranslate = document.createElement('p');
     this.wordTranslate.innerHTML = option.wordTranslate;
+    this.isStudied = document.createElement('p');
+    this.isСomplicated = document.createElement('p');
+    this.rightAnswer = document.createElement('p');
+    this.used = document.createElement('p');
+
+    this.wrapperOption.appendChild(this.isStudied);
+    this.wrapperOption.appendChild(this.isСomplicated);
+    this.wrapperOption.appendChild(this.rightAnswer);
+    this.wrapperOption.appendChild(this.used);
+
+    if (option.isStudied) {
+      this.isStudied.textContent = 'Изученное';
+    } else {
+      this.isStudied.textContent = 'Не изученное';
+    };
+
+    if (option.isComplicated) {
+      this.isСomplicated.textContent = 'Сложное';
+      this.wrapper.classList.add('complicated');
+    } else {
+      this.isСomplicated.textContent = 'Нормальное';
+      this.wrapper.classList.remove('complicated');
+    };
+
+    this.used.textContent = `Использовано: ${option.used}`;
+    this.rightAnswer.textContent = `Правильных ответов: ${option.rightAnswer}`;
 
     this.wrapperText.appendChild(this.word);
     this.wrapperText.appendChild(this.transcription);
@@ -106,6 +125,7 @@ export class BookCard {
 
     this.wrapper.appendChild(this.image);
     this.wrapper.appendChild(this.wrapperText);
+    this.wrapper.appendChild(this.wrapperOption);
     this.wrapper.appendChild(this.wrapperButton);
     this.node.appendChild(this.wrapper);
     this.events(option);
@@ -116,8 +136,13 @@ export class BookCard {
       this.studiedButton.classList.add('hidden');
       this.complicatedButton.classList.add('hidden');
     };
+    if (option.isStudied) {
+
+    } else {
+
+    };
   };
-  events(option: IOPtion) {
+  events(option: Itotalword) {
     this.playButton.onclick = () => {
       this.audio.play();
       this.audio.onended = () => {
@@ -134,14 +159,17 @@ export class BookCard {
       };
     };
     this.studiedButton.onclick = () => {
+      this.isStudied.textContent = 'Изученное';
       this.onStudied();
     };
     this.complicatedButton.onclick = () => {
       this.onComplicated();
+      this.isСomplicated.textContent = 'Сложное';
       this.wrapper.classList.add('complicated');
     };
     this.removeComplicatedButton.onclick = () => {
       this.onRemoveComplicated();
+      this.isСomplicated.textContent = 'Нормальное';
       this.wrapper.classList.remove('complicated');
     };
   };

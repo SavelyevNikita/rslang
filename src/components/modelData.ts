@@ -34,6 +34,8 @@ export interface Itotalword {
   wordTranslate: string;
   isComplicated: boolean;
   isStudied: boolean;
+  rightAnswer: number;
+  used: number;
 }
 
 export class DataModel {
@@ -61,36 +63,39 @@ export class DataModel {
   };
   async compare(type: number) {
     console.log('compare');
+    const totalWords: Itotalword[] = [];
     const word = await this.getWords(type);
-    const totalWords = word.map((itemTotal: Itotalword) => {
-      console.log(itemTotal);
+    word.forEach((itemTotal: Itotalword) => {
+      itemTotal.isStudied = false;
+      itemTotal.isComplicated = false;
       if (this.studedWords) {
+        console.log(this.studedWords);
         this.studedWords.forEach((itemStuded: string) => {
-          console.log(itemStuded);
-          // this.complicatedWords.forEach((itemСomplicated: Iword) => {
-          //   console.log(itemСomplicated);
-            // if (itemTotal.id === itemСomplicated.id) {
-            //   itemTotal.isComplicated = true;
-            // } else { itemTotal.isComplicated = false; }
-            if (itemTotal.id === itemStuded) {
-              itemTotal.isStudied = true;
-            } else { itemTotal.isStudied = false; }
-          // })
+          if (itemTotal.id === itemStuded) {
+            itemTotal.isStudied = true;
+            return;
+          }
+        });
+      };
+      if (this.complicatedWords) {
+        this.complicatedWords.forEach((itemСomplicated: Iword) => {
+          console.log(itemСomplicated);
+          if (itemTotal.id === itemСomplicated.id) {
+            itemTotal.isComplicated = true;
+            return;
+          }
         })
-      }
-      else {
-        itemTotal.isStudied = false;
-      }
+      };
+      totalWords.push(itemTotal);
     });
     console.log(totalWords);
     return totalWords;
-  };
+  }
   addToComplicated(word: Iword) {
     this.complicatedWords.add(word);
   };
   addToStudied(word: Iword) {
     this.studedWords.add(word.id);
-    console.log(this.studedWords);
   };
   removeToComplicated(word: Iword) {
     this.complicatedWords.delete(word);
@@ -98,12 +103,12 @@ export class DataModel {
 
   async getWordsDown(type: number) {
     if (this.page >= 0 && this.page < 30) {
-      const words = await this.getWords(type);
+      const words = await this.compare(type);
       this.page -= 1;
       return await words;
     } else {
       this.page = 29;
-      const words = await this.getWords(type);
+      const words = await this.compare(type);
       this.page -= 1;
       return await words;
     }
