@@ -17,42 +17,100 @@ export interface Iword {
   wordTranslate: string;
 }
 
+export interface Itotalword {
+  audio: string;
+  audioExample: string;
+  audioMeaning: string;
+  group: number;
+  id: string;
+  image: string;
+  page: number;
+  textExample: string;
+  textExampleTranslate: string;
+  textMeaning: string;
+  textMeaningTranslate: string;
+  transcription: string;
+  word: string;
+  wordTranslate: string;
+  isComplicated: boolean;
+  isStudied: boolean;
+  rightAnswer: number;
+  used: number;
+}
+
 export class DataModel {
   type: number;
   page: number;
-  complicatedWords: any;
+  complicatedWords: Set<Iword>;
+  studedWords: Set<string>;
   constructor() {
     this.type = null;
     this.page = 0;
     this.complicatedWords = new Set();
+    this.studedWords = new Set();
   }
-  getWordsUp(type: number) {
+  async getWordsUp(type: number) {
     if (this.page >= 0 && this.page < 30) {
-      const words = this.getWords(type);
+      const words = await this.compare(type);
       this.page += 1;
-      return words;
+      return await words;
     } else {
       this.page = 0;
-      const words = this.getWords(type);
+      const words = await this.compare(type);
       this.page += 1;
-      return words;
-    }
+      return await words;
+    };
+  };
+  async compare(type: number) {
+    console.log('compare');
+    const totalWords: Itotalword[] = [];
+    const word = await this.getWords(type);
+    word.forEach((itemTotal: Itotalword) => {
+      itemTotal.isStudied = false;
+      itemTotal.isComplicated = false;
+      if (this.studedWords) {
+        console.log(this.studedWords);
+        this.studedWords.forEach((itemStuded: string) => {
+          if (itemTotal.id === itemStuded) {
+            itemTotal.isStudied = true;
+            return;
+          }
+        });
+      };
+      if (this.complicatedWords) {
+        this.complicatedWords.forEach((itemСomplicated: Iword) => {
+          console.log(itemСomplicated);
+          if (itemTotal.id === itemСomplicated.id) {
+            itemTotal.isComplicated = true;
+            return;
+          }
+        })
+      };
+      totalWords.push(itemTotal);
+    });
+    console.log(totalWords);
+    return totalWords;
   }
-  addTocomplicated(word: Iword) {
+  addToComplicated(word: Iword) {
     this.complicatedWords.add(word);
-    console.log(this.complicatedWords);
-  }
+  };
+  addToStudied(word: Iword) {
+    this.studedWords.add(word.id);
+  };
+  removeToComplicated(word: Iword) {
+    this.complicatedWords.delete(word);
+  };
 
-  getWordsDown(type: number) {
+  async getWordsDown(type: number) {
     if (this.page >= 0 && this.page < 30) {
-      const words = this.getWords(type);
+      const words = await this.compare(type);
       this.page -= 1;
-      return words;
+      return await words;
     } else {
       this.page = 29;
-      const words = this.getWords(type);
+      const words = await this.compare(type);
       this.page -= 1;
-      return words;
+      return await words;
     }
   }
   async getWords(type: number) {

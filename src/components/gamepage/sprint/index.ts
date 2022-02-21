@@ -104,6 +104,7 @@ export class SprintPage {
   onRightButton() {
     if (this.answerRand) {
       this.ifCurrect();
+
     } else {
       this.ifWrong();
     }
@@ -112,6 +113,7 @@ export class SprintPage {
   onWrongButton() {
     if (!this.answerRand) {
       this.ifCurrect();
+
     } else {
       this.ifWrong();
     }
@@ -223,7 +225,6 @@ export class SprintPage {
 
     let newWords = oldStatistics.newWords;
     this.allWordsAtRound.forEach((word: Iword) => {
-      console.log(newWords);
       const mentionedWordIndex = newWords.findIndex((item) => {
         item.wordId = word.id;
       });
