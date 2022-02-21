@@ -1,6 +1,7 @@
 import { api } from "./../../../api/server";
 import categoryHtml from "./../category.html";
 import { ResultPage } from "./../result";
+import { OldStatistics } from "./../../statisticpage/oldstatistic";
 import cardHTML from "./index.html";
 import "./index.scss";
 import {
@@ -40,10 +41,13 @@ export class AudiocallPage {
   allWrongWords: Iword[];
   wrongList: Iword[];
   rightList: Iword[];
+  allWordsAtRound: Iword[];
   startPage: any;
   audioCorrect: HTMLAudioElement;
   audioWrong: HTMLAudioElement;
-  audioEndRaund: HTMLAudioElement
+  audioEndRaund: HTMLAudioElement;
+  correctAnswersInRow: number;
+  biggestCorrectAnswersInRow: number;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -68,6 +72,7 @@ export class AudiocallPage {
 
     this.rightList = [];
     this.wrongList = [];
+    this.allWordsAtRound = [];
     this.randPage = Math.floor(Math.random() * 29);
     this.wordIndex = 0;
     this.randNumList = [
@@ -85,6 +90,8 @@ export class AudiocallPage {
     const audioEndRaund = new Audio();
     this.audioEndRaund = audioEndRaund;
     this.audioEndRaund.src = endRaundAudio;
+    this.correctAnswersInRow = 0;
+    this.biggestCorrectAnswersInRow = 0;
   }
   chooseLvl() {
     const arrLvlButton = document.querySelectorAll(".category__item");
@@ -119,18 +126,28 @@ export class AudiocallPage {
       }
       button.onclick = () => {
         if (button.classList.contains("audiocall__version_right")) {
-          this.audioCorrect.play();
-          this.rightList.push(this.allWords[this.randNumList[this.wordIndex]]);
+          this.ifCurrect();
         } else {
-          this.audioWrong.play();
-          this.wrongList.push(this.allWords[this.randNumList[this.wordIndex]]);
+          this.ifWrong();
         }
         this.renderGame();
         this.wordIndex++;
       };
     });
   }
-
+  ifCurrect() {
+    this.audioCorrect.play();
+    this.rightList.push(this.allWords[this.randNumList[this.wordIndex]]);
+    this.correctAnswersInRow++;
+    if (this.biggestCorrectAnswersInRow < this.correctAnswersInRow) {
+      this.biggestCorrectAnswersInRow = this.correctAnswersInRow;
+    }
+  }
+  ifWrong() {
+    this.audioWrong.play();
+    this.wrongList.push(this.allWords[this.randNumList[this.wordIndex]]);
+    this.correctAnswersInRow = 0;
+  }
   async renderGame() {
     this.destroy();
     const lvl = +localStorage.getItem("lvl");
@@ -159,9 +176,105 @@ export class AudiocallPage {
       this.points.innerHTML = `${this.rightList.length}`;
     }
   }
+
+  async putStatistics() {
+    const oldStatistics = new OldStatistics();
+    await oldStatistics.getStatistics();
+
+    let newWordsAudiocall = oldStatistics.newWordsAudiocall;
+    this.allWordsAtRound.forEach((item: Iword) => {
+      if (!newWordsAudiocall.includes(item.id)) {
+        newWordsAudiocall.push(item.id);
+      }
+    });
+
+    const allRaundsAudiocall =
+      oldStatistics.allRaundsAudiocall + this.allWordsAtRound.length;
+    const RightAnswersAudiocall =
+      oldStatistics.RightAnswersAudiocall + this.rightList.length;
+    let correctAnswerInRow;
+    if (
+      oldStatistics.correctAnswerInRowInAudiocall <
+      this.biggestCorrectAnswersInRow
+    ) {
+      correctAnswerInRow = this.biggestCorrectAnswersInRow;
+    }
+
+    let newWords = oldStatistics.newWords;
+    this.allWordsAtRound.forEach((word: Iword) => {
+      const mentionedWordIndex = oldStatistics.newWords.findIndex(
+        (item) => {item.wordId = word.id}
+      );
+      if (mentionedWordIndex === -1) {
+        let right;
+        if (this.rightList.find((item) => item === word)) {
+          right = 1;
+        } else {
+          right = 0;
+        }
+        newWords.push({
+          rightAnswers: right,
+          used: 1,
+          wordId: word.id,
+        });
+      } else {
+        let right;
+        if (this.rightList.find((item) => item === word)) {
+          right = oldStatistics.newWords[mentionedWordIndex].rightAnswers + 1;
+        } else {
+          right = oldStatistics.newWords[mentionedWordIndex].rightAnswers;
+        }
+        newWords.splice(mentionedWordIndex, 1, {
+          rightAnswers: right,
+          used: oldStatistics.newWords[mentionedWordIndex].used + 1,
+          wordId: oldStatistics.newWords[mentionedWordIndex].wordId,
+        });
+      }
+    });
+
+    const allRaunds = oldStatistics.allRaunds + this.allWordsAtRound.length;
+    const allRightAnswers =
+      oldStatistics.allRightAnswers + this.rightList.length;
+
+      let learnedWords = oldStatistics.learnedWords;
+      this.allWordsAtRound.forEach((item: Iword) => {
+        if (!learnedWords.includes(item.id)) {
+          learnedWords.push(item.id);
+        }
+      });
+
+    const statistic = {
+      learnedWords: oldStatistics.learnedWordsNumber,
+      optional: {
+        newWordsAudiocall: JSON.stringify(oldStatistics.newWordsAudiocall),
+        allRaundsAudiocall: allRaundsAudiocall,
+        RightAnswersAudiocall: RightAnswersAudiocall,
+        correctAnswerInRowInAudiocall: correctAnswerInRow,
+
+        newWordsSprint: JSON.stringify(oldStatistics.newWordsSprint),
+        allRaundsSprint: oldStatistics.allRaundsSprint,
+        RightAnswersSprint: oldStatistics.RightAnswersSprint,
+        correctAnswerInRowInSprint: oldStatistics.correctAnswerInRowInSprint,
+
+        newWords: JSON.stringify(newWords),
+        allRaunds: allRaunds,
+        allRightAnswers: allRightAnswers,
+        learnedWords: JSON.stringify(learnedWords),
+      },
+    };
+    await api.putStatistics(statistic);
+    console.log(oldStatistics, statistic);
+  }
+
   openResults() {
+    console.log("this.correctAnswersInRow", this.correctAnswersInRow);
+
     this.destroy();
-    this.audioEndRaund.play()
+    this.audioEndRaund.play();
+    this.allWordsAtRound = this.allWordsAtRound.concat(
+      this.rightList,
+      this.wrongList
+    );
     const resultPage = new ResultPage();
     resultPage.renderResults(this);
     resultPage.onHome = () => {
@@ -172,6 +285,7 @@ export class AudiocallPage {
       this.startPage.onAudiocall();
     };
     this.node.appendChild(resultPage.results);
+    this.putStatistics();
   }
   destroy() {
     this.node.innerHTML = "";
