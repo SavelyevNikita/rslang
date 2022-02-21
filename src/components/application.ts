@@ -2,7 +2,7 @@ import { StartPage } from "./startPage/startPage";
 import { CategoryPage } from "./bookPage/categoryPage";
 import { SprintPage } from "./gamepage/sprint";
 import { AudiocallPage } from "./gamepage/audiocall";
-import { StatisticPage } from "./statisticPage/statisticPage";
+import { StatisticPage } from "./statisticpage/statisticPage";
 import { DataModel, Iword, Itotalword } from "./modelData";
 import { BookPage } from "./bookpage/bookPage";
 import { BookCard } from "./bookpage/bookCard";
