@@ -78,7 +78,7 @@ export class Application {
     startPage.onStatistic = () => {
       startPage.destroy();
       const statisticPage = new StatisticPage(startPage.startPageNode);
-      statisticPage.render('Statistic Page');
+      statisticPage.render();
     }
   };
 

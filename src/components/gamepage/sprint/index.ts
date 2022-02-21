@@ -52,6 +52,7 @@ export class SprintPage {
   audioEndRaund: HTMLAudioElement;
   correctAnswersInRow: number;
   biggestCorrectAnswersInRow: number;
+  onStudiedSprint: (item: Iword) => void;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -122,7 +123,7 @@ export class SprintPage {
   ifCurrect() {
     this.audioCorrect.play();
     this.rightList.push(this.allWords[this.rightRand]);
-
+    this.onStudiedSprint(this.allWords[this.rightRand]);
     this.correctAnswersInRow++;
     if (this.biggestCorrectAnswersInRow < this.correctAnswersInRow) {
       this.biggestCorrectAnswersInRow = this.correctAnswersInRow;
@@ -169,9 +170,8 @@ export class SprintPage {
     this.wordEnglish.innerHTML = `${this.allWords[this.rightRand].word}`;
 
     if (this.answerRand) {
-      this.wordRussian.innerHTML = `${
-        this.allWords[this.rightRand].wordTranslate
-      }`;
+      this.wordRussian.innerHTML = `${this.allWords[this.rightRand].wordTranslate
+        }`;
     } else {
       this.wordRussian.innerHTML = `${this.allWords[wrongRand].wordTranslate}`;
     }
