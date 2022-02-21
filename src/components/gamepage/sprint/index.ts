@@ -187,7 +187,7 @@ export class SprintPage {
   }
 
   timer() {
-    let seconds: number = 3;
+    let seconds: number = 30;
     const showTimer: () => void = () => {
       seconds--;
       this.time.innerHTML = `${seconds}`.padStart(2, "0");
