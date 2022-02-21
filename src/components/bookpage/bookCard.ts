@@ -37,7 +37,9 @@ export class BookCard {
   wrapperButton: HTMLDivElement;
   onStudied: () => void;
   onComplicated: () => void;
-  constructor(node: HTMLElement, option: IOPtion, isAutorised: boolean) {
+  removeComplicatedButton: HTMLButtonElement;
+  onRemoveComplicated: () => void;
+  constructor(node: HTMLElement, option: IOPtion, isAutorised: boolean, type: string) {
     this.node = node;
     this.wrapperText = document.createElement('div');
     this.wrapperText.classList.add('wrapper-text');
@@ -47,23 +49,26 @@ export class BookCard {
     this.group = document.createElement('p');
     this.page = document.createElement('p');
     this.word = document.createElement('p');
-    this.word.textContent = option.word;
+    this.word.classList.add('word');
+    this.word.innerHTML = option.word;
     this.image = document.createElement('img');
+    this.image.classList.add('pic');
+    this.image.alt=option.word;
     this.image.src = `${HOST}/${option.image}`;
     this.audio = document.createElement('audio');
     this.audio.src = `${HOST}/${option.audio}`;
     this.textMeaning = document.createElement('p');
-    this.textMeaning.textContent = option.textMeaning;
+    this.textMeaning.innerHTML = option.textMeaning;
     this.textExample = document.createElement('p');
-    this.textExample.textContent = option.textExample;
+    this.textExample.innerHTML = option.textExample;
     this.transcription = document.createElement('p');
-    this.transcription.textContent = option.transcription;
+    this.transcription.innerHTML = option.transcription;
     this.textExampleTranslate = document.createElement('p');
-    this.textExampleTranslate.textContent = option.textExampleTranslate;
+    this.textExampleTranslate.innerHTML = option.textExampleTranslate;
     this.textMeaningTranslate = document.createElement('p');
-    this.textMeaningTranslate.textContent = option.textMeaningTranslate;
+    this.textMeaningTranslate.innerHTML = option.textMeaningTranslate;
     this.wordTranslate = document.createElement('p');
-    this.wordTranslate.textContent = option.wordTranslate;
+    this.wordTranslate.innerHTML = option.wordTranslate;
 
     this.wrapperText.appendChild(this.word);
     this.wrapperText.appendChild(this.transcription);
@@ -75,14 +80,29 @@ export class BookCard {
 
     this.playButton = document.createElement('button');
     this.playButton.classList.add('play-button');
+    this.playButton.title = 'Play';
     this.studiedButton = document.createElement('button');
     this.studiedButton.classList.add('favorite-button');
+    this.studiedButton.title = 'To studied word';
     this.complicatedButton = document.createElement('button');
-    this.complicatedButton.classList.add('complicated-button');
+    this.complicatedButton.classList.add('add-complicated-button');
+    this.complicatedButton.title = 'To complicated word';
+    this.removeComplicatedButton = document.createElement('button');
+    this.removeComplicatedButton.classList.add('remove-complicated-button');
+    this.removeComplicatedButton.title = 'Remove complicated word';
+
+    if (type === 'add') {
+      this.complicatedButton.classList.remove('hidden-type');
+      this.removeComplicatedButton.classList.add('hidden-type');
+    } else {
+      this.complicatedButton.classList.add('hidden-type');
+      this.removeComplicatedButton.classList.remove('hidden-type');
+    };
 
     this.wrapperButton.appendChild(this.playButton);
     this.wrapperButton.appendChild(this.studiedButton);
     this.wrapperButton.appendChild(this.complicatedButton);
+    this.wrapperButton.appendChild(this.removeComplicatedButton);
 
     this.wrapper.appendChild(this.image);
     this.wrapper.appendChild(this.wrapperText);
@@ -95,8 +115,8 @@ export class BookCard {
     } else {
       this.studiedButton.classList.add('hidden');
       this.complicatedButton.classList.add('hidden');
-    }
-  }
+    };
+  };
   events(option: IOPtion) {
     this.playButton.onclick = () => {
       this.audio.play();
@@ -109,17 +129,23 @@ export class BookCard {
           this.audio.play();
           this.audio.onended = () => {
             this.audio.pause();
-          }
-        }
-      }
-    }
+          };
+        };
+      };
+    };
     this.studiedButton.onclick = () => {
       this.onStudied();
     };
     this.complicatedButton.onclick = () => {
       this.onComplicated();
-    }
-  }
+      this.wrapper.classList.add('complicated');
+    };
+    this.removeComplicatedButton.onclick = () => {
+      this.onRemoveComplicated();
+      this.wrapper.classList.remove('complicated');
+    };
+  };
   destroy() {
-  }
-}
+    this.wrapper.remove();
+  };
+};
