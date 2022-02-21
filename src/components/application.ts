@@ -3,7 +3,7 @@ import { CategoryPage } from "./bookPage/categoryPage";
 import { SprintPage } from "./gamepage/sprint";
 import { AudiocallPage } from "./gamepage/audiocall";
 import { StatisticPage } from "./statisticPage/statisticPage";
-import { DataModel, Iword } from "./modelData";
+import { DataModel, Iword, Itotalword } from "./modelData";
 import { BookPage } from "./bookpage/bookPage";
 import { BookCard } from "./bookpage/bookCard";
 import { AutorizationPopUp } from './authorization/index';
@@ -14,18 +14,16 @@ export class Application {
   constructor() {
     this.startpageCycle(false);
     this.dataModel = new DataModel();
+
   }
   private startpageCycle(isAutorised: boolean) {
     this.isAutorised = isAutorised;
-    // console.log(this.isAutorised);
     const startPage = new StartPage(document.body);
     startPage.autorization.onUser = (user) => {
       if (user) {
-        console.log('user');
         startPage.destroyWhole();
         this.startpageCycle(true);
       } else {
-        console.log('no user');
         startPage.destroyWhole();
         this.startpageCycle(false);
       }
@@ -37,7 +35,6 @@ export class Application {
     };
     startPage.onBook = () => {
       startPage.destroy();
-      console.log(this.dataModel.complicatedWords.size);
       const categoryPage = new CategoryPage(startPage.startPageNode, this.dataModel.complicatedWords.size);
       categoryPage.onSection1 = () => {
         this.bookPageCycle(startPage.startPageNode, 0, this.isAutorised);
@@ -58,7 +55,6 @@ export class Application {
         this.bookPageCycle(startPage.startPageNode, 5, this.isAutorised);
       }
       categoryPage.onSection7 = () => {
-        // console.log('is empty...')
         this.bookPageCycleSeven(startPage.startPageNode, 6, this.isAutorised);
       }
     }
@@ -66,7 +62,10 @@ export class Application {
       startPage.destroy();
       const sprintPage = new SprintPage(startPage.startPageNode);
       sprintPage.renderCategory();
-      sprintPage.startPage = startPage      
+      sprintPage.startPage = startPage;
+      sprintPage.onStudiedSprint = (item: Iword) => {
+        this.dataModel.addToStudied(item);
+      };
     };
 
     startPage.onAudiocall = () => {
@@ -89,29 +88,29 @@ export class Application {
     bookPage.onNext = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsUp(type);
-      words.forEach((item: Iword) => {
-        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
-        bookCard.onFavorite = () => {
-          console.log(item);
-          console.log('add to favorite..');
-        }
+      words.forEach(async (item: Itotalword) => {
+        // const bookCard = new BookCard(bookPage.cards, item, isAutorised, 'add', isComplicated, isStudied);
+        const bookCard = await new BookCard(bookPage.cards, item, isAutorised, 'add');
+        bookCard.onStudied = () => {
+          this.dataModel.addToStudied(item);
+        };
         bookCard.onComplicated = () => {
-          this.dataModel.addTocomplicated(item);
-        }
+          this.dataModel.addToComplicated(item);
+        };
       });
-    }
+    };
     bookPage.onPrev = async () => {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsDown(type);
-      words.forEach((item: Iword) => {
-        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
-        bookCard.onFavorite = () => {
-          console.log('add to favorite..');
-        }
+      words.forEach(async (item: Itotalword) => {
+        console.log(item);
+        const bookCard = await new BookCard(bookPage.cards, item, isAutorised, 'add');
+        bookCard.onStudied = () => {
+          this.dataModel.addToStudied(item);
+        };
         bookCard.onComplicated = () => {
-          this.dataModel.addTocomplicated(item);
-          console.log('add to complicated..')
-        }
+          this.dataModel.addToComplicated(item);
+        };
       });
     };
     bookPage.onNext();
@@ -122,10 +121,14 @@ export class Application {
     bookPage.onshow = async () => {
       bookPage.destroyCards();
       const words = this.dataModel.complicatedWords;
-      words.forEach((item: Iword) => {
-        const bookCard = new BookCard(bookPage.cards, item, isAutorised);
+      words.forEach((item: Itotalword) => {
+        const bookCard = new BookCard(bookPage.cards, item, isAutorised, 'remove');
+        bookCard.onRemoveComplicated = () => {
+          this.dataModel.removeToComplicated(item);
+          bookCard.destroy();
+        };
       });
-    }    
+    }
     bookPage.onshow();
   }
 }

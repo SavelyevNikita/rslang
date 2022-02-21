@@ -40,6 +40,7 @@ export class SprintPage {
   randNumList: number[];
   counterOfRandNum: number;
   timerId: any;
+  onStudiedSprint: any;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -80,6 +81,7 @@ export class SprintPage {
   onRightButton() {
     if (this.answerRand) {
       this.rightList.push(this.allWords[this.rightRand]);
+      this.onStudiedSprint(this.allWords[this.rightRand]);
     } else {
       this.wrongList.push(this.allWords[this.rightRand]);
     }
@@ -88,6 +90,7 @@ export class SprintPage {
   onWrongButton() {
     if (!this.answerRand) {
       this.rightList.push(this.allWords[this.rightRand]);
+      this.onStudiedSprint(this.allWords[this.rightRand]);
     } else {
       this.wrongList.push(this.allWords[this.rightRand]);
     }
