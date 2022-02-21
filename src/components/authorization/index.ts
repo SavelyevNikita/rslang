@@ -49,7 +49,6 @@ export class AutorizationPopUp {
   };
   openSignIn() {
     this.wrapperHtml.innerHTML = this.signInHtml;
-    console.log("openSignIn");
     const buttonRegistration = document.getElementById("openRegistration");
     if (buttonRegistration) {
       buttonRegistration.onclick = () => this.openRegistration();
@@ -72,7 +71,6 @@ export class AutorizationPopUp {
       document.getElementById("userPassword") as HTMLInputElement
     ).value;
     if (name && email && password) {
-      console.log("name", name, "email", email, "password", password);
       this.user = {
         name,
         email,
@@ -85,7 +83,6 @@ export class AutorizationPopUp {
 
   openRegistration() {
     this.wrapperHtml.innerHTML = this.registrationHtml;
-    console.log("openRegistration");
     const buttonSignIn = document.getElementById("openSignIn");
     if (buttonSignIn) {
       buttonSignIn.onclick = () => this.openSignIn();
@@ -102,7 +99,6 @@ export class AutorizationPopUp {
   removeForm = (event: Event) => {
     if (!(event.target as HTMLElement).closest(".form-wrapper")) {
       if (!(event.target as HTMLElement).closest(".form__container")) {
-        console.log(event.target);
         this.destroy();
         document.removeEventListener("click", this.removeForm);
       };

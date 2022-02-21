@@ -62,14 +62,12 @@ export class DataModel {
     };
   };
   async compare(type: number) {
-    console.log('compare');
     const totalWords: Itotalword[] = [];
     const word = await this.getWords(type);
     word.forEach((itemTotal: Itotalword) => {
       itemTotal.isStudied = false;
       itemTotal.isComplicated = false;
       if (this.studedWords) {
-        console.log(this.studedWords);
         this.studedWords.forEach((itemStuded: string) => {
           if (itemTotal.id === itemStuded) {
             itemTotal.isStudied = true;
@@ -79,7 +77,6 @@ export class DataModel {
       };
       if (this.complicatedWords) {
         this.complicatedWords.forEach((itemСomplicated: Iword) => {
-          console.log(itemСomplicated);
           if (itemTotal.id === itemСomplicated.id) {
             itemTotal.isComplicated = true;
             return;
@@ -88,7 +85,6 @@ export class DataModel {
       };
       totalWords.push(itemTotal);
     });
-    console.log(totalWords);
     return totalWords;
   }
   addToComplicated(word: Iword) {
@@ -115,7 +111,6 @@ export class DataModel {
   }
   async getWords(type: number) {
     this.type = type;
-    console.log(this.type);
     localStorage.setItem('lvl', `${this.type}`);
     localStorage.setItem('page', `${this.page}`);
     const myApi = await api.getWords(this.type, this.page);

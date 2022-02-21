@@ -86,9 +86,16 @@ export class BookCard {
       this.wrapper.classList.remove('complicated');
     };
 
-    this.used.textContent = `Использовано: ${option.used}`;
-    this.rightAnswer.textContent = `Правильных ответов: ${option.rightAnswer}`;
-
+    if (option.used) {
+      this.used.textContent = `Использовано: ${option.used}`;
+    } else{
+      this.used.textContent = `Использовано: 0`;
+    };
+    if(option.rightAnswer){
+      this.rightAnswer.textContent = `Правильных ответов: ${option.rightAnswer}`;
+    } else{
+      this.rightAnswer.textContent = `Правильных ответов: 0`;
+    };
     this.wrapperText.appendChild(this.word);
     this.wrapperText.appendChild(this.transcription);
     this.wrapperText.appendChild(this.wordTranslate);

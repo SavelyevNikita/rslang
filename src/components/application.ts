@@ -103,7 +103,6 @@ export class Application {
       bookPage.destroyCards();
       const words = await this.dataModel.getWordsDown(type);
       words.forEach(async (item: Itotalword) => {
-        console.log(item);
         const bookCard = await new BookCard(bookPage.cards, item, isAutorised, 'add');
         bookCard.onStudied = () => {
           this.dataModel.addToStudied(item);

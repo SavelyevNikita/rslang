@@ -14,7 +14,6 @@ export const api = {
     if (rawResponse.status === 200) {
       const content = await rawResponse.json();
       localStorage.setItem("user", `${JSON.stringify(content)}}`);
-      console.log("###content", content);
     } else {
       alert("регистрация не выполнена...");
     }
@@ -32,7 +31,6 @@ export const api = {
     if (rawResponse.status === 200) {
       const content = await rawResponse.json();
       localStorage.setItem("user", `${JSON.stringify(content)}`);
-      console.log("###content", content);
 
       const statistic = {
         learnedWords: 0,
