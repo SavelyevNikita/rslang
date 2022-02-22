@@ -25,7 +25,9 @@ footer {
 .signin-wrapper {
   position: relative;
 }
+.signout,
 .signin {
+  display: block;
   border: solid 2px $button-color;
   background: transparent;
   width: 100px;
@@ -34,6 +36,9 @@ footer {
   &:hover {
     background-color: $button-color;
   }
+}
+.signin-hide{
+  display: none;
 }
 .nav {
   display: flex;

@@ -9,6 +9,7 @@ export class StartPage {
   statisticButton: HTMLDivElement;
   sprintButton: HTMLDivElement;
   audiocallButton: HTMLDivElement;
+  signOutButton: HTMLButtonElement;
   signInButton: HTMLButtonElement;
   signInWrapper: HTMLDivElement;
   main: HTMLElement;
@@ -36,9 +37,11 @@ export class StartPage {
     this.sprintButton = doc.querySelector(".game-list__item_sprint");
     this.audiocallButton = doc.querySelector(".game-list__item_audiocall");
     this.statisticButton = doc.querySelector(".nav__link_statistics");
-    this.signInButton = doc.querySelector(".signin");
     this.signInWrapper = doc.querySelector(".signin-wrapper");
     this.autorization = new AutorizationPopUp();
+    this.signInButton = doc.querySelector(".signin");
+    this.signOutButton = doc.querySelector(".signout")
+    
     this.mainButton.onclick = () => {
       this.onMain();
     };
@@ -54,6 +57,12 @@ export class StartPage {
     this.statisticButton.onclick = () => {
       this.onStatistic();
     };
+
+    this.signOutButton.onclick = () => {
+      localStorage.setItem("user", ``);
+      document.querySelector('.signout').classList.add('signin-hide')
+        document.querySelector('.signin').classList.remove('signin-hide');
+    }
     this.signInButton.onclick = () => {
       this.autorization.render(this.signInWrapper);
       setTimeout(() => {
@@ -68,7 +77,7 @@ export class StartPage {
     this.node.appendChild(this.div);
   }
   destroy() {
-    console.log('startPageNode destroy')
+    console.log("startPageNode destroy");
     this.startPageNode.innerHTML = "";
   }
   destroyWhole() {
