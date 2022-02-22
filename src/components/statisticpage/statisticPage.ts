@@ -33,7 +33,7 @@ export class StatisticPage {
   }
   async render() {
     this.destroy();
-    this.name.innerHTML = JSON.parse(localStorage.getItem("user")).name;
+    this.name.innerHTML = localStorage.getItem("userName");
     const myApi = new OldStatistics();
     await myApi.getStatistics();
     if (myApi.learnedWordsNumber) {

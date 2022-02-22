@@ -80,7 +80,7 @@ export class StartPage {
     document.querySelector(`.nav__link_${page}`).classList.add('nav__link_active')
   }
   render() {
-    this.name.innerHTML = JSON.parse(localStorage.getItem("user")).name;
+    this.name.innerHTML = localStorage.getItem("userName");
     this.startPageNode.appendChild(this.main);
   }
   renderWholePage() {
