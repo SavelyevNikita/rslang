@@ -1,0 +1,178 @@
+.body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.header,
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header,
+.main,
+footer {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+.logo {
+  font-weight: 900;
+  font-size: 28px;
+}
+.signin-wrapper {
+  position: relative;
+}
+.signout,
+.signin {
+  display: block;
+  border: solid 2px $button-color;
+  background: transparent;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  &:hover {
+    background-color: $button-color;
+  }
+}
+.signin-hide {
+  display: none;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 200px;
+  &__link {
+    position: relative;
+    cursor: pointer;
+    transition: 0.5s;
+    text-transform: uppercase;
+  }
+}
+.nav__link {
+  &::after {
+    content: "";
+    position: absolute;
+    background: $button-color;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s;
+    top: 120%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+  }
+  &:hover {
+    color: $button-color;
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+  &_active {
+    color: $button-color;
+    &::after {
+      color: $button-color;
+      transform: scaleX(1);
+    }
+  }
+}
+.game-list {
+  display: none;
+  position: absolute;
+  padding-top: 10px;
+  &__item {
+    line-height: 20px;
+    padding: 5px;
+    margin: 5px 0;
+    background: $bg-color;
+    color: $text-color;
+  }
+}
+.nav__link_game:hover .game-list {
+  display: block;
+  .game-list__item:hover {
+    background: $button-color;
+  }
+}
+
+.main {
+  flex-grow: 1;
+  // display: flex;
+  // align-items: center;
+}
+.home {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &__text {
+    margin: 0 auto;
+    max-width: 500px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  &__tittle {
+    font-size: 26px;
+    font-weight: 900;
+    margin: 40px;
+  }
+  &__name{
+    color: $button-color;
+  }
+}
+
+.team {
+  display: flex;
+  gap: 20px;
+  &__container {
+    max-width: 300px;
+    background: $bg-color;
+    border-radius: 20px;
+    width: 300px;
+    font-size: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__img-container{
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+
+  }
+  &__img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 3px solid $button-color;
+    &_julia {
+      background: url(./../../assets/img/julia.jpg) no-repeat 50% 50%;
+      background-size: cover;
+    }
+    &_nikita {
+      background: url(./../../assets/img/nikita.jpg) no-repeat 50% 50%;
+      background-size: cover;
+    }
+  }
+  &__tittle {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: 500;
+  }
+  &__text {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+.footer {
+  font-size: 18px;
+  &__link {
+    color: #000000;
+  }
+}

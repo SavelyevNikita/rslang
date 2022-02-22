@@ -1,0 +1,57 @@
+.sprint {
+    user-select: none;
+    margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    background: $bg-color;
+    border-radius: 20px;
+    &__container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &__time {
+      border-radius: 50%;
+      border: solid $hover-button-color 2px;
+      height: 54px;
+      width: 54px;
+      font-size: 40px;
+      padding: 5px;
+    }
+    &__result {
+      border-radius: 50%;
+      border: solid $right-answer-color 2px;
+      height: 54px;
+      width: 54px;
+      font-size: 40px;
+      padding: 5px;
+      text-align: center;
+    }
+    &__english {
+      font-size: 32px;
+      margin: 30px auto;
+      font-weight: 700;
+    }
+    &__russian {
+      font-size: 32px;
+      margin: 30px auto 60px;
+    }
+    &__button {
+      width: 150px;
+      height: 40px;
+      border-radius: 20px;
+      color: #ffffff;
+      &_right {
+        background: $right-answer-color;
+      }
+      &_wrong {
+        background: $hover-button-color;
+      }
+    }
+  }
