@@ -36,7 +36,6 @@ export class StatisticPage {
     this.name.innerHTML = JSON.parse(localStorage.getItem("user")).name;
     const myApi = new OldStatistics();
     await myApi.getStatistics();
-    console.log('myApi', myApi)
     if (myApi.learnedWordsNumber) {
       this.learned.innerHTML = `${myApi.learnedWordsNumber}`;
     } else this.learned.innerHTML = "0";

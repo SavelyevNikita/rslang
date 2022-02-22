@@ -15,7 +15,7 @@ export class StartPage {
   main: HTMLElement;
   startPageNode: HTMLDivElement;
   node: HTMLElement;
-
+  name:HTMLSpanElement
   onMain: () => void;
   onBook: () => void;
   onSprint: () => void;
@@ -41,6 +41,7 @@ export class StartPage {
     this.autorization = new AutorizationPopUp();
     this.signInButton = doc.querySelector(".signin");
     this.signOutButton = doc.querySelector(".signout")
+    this.name = doc.querySelector(".home__name");
     
     this.mainButton.onclick = () => {
       this.onMain();
@@ -79,13 +80,13 @@ export class StartPage {
     document.querySelector(`.nav__link_${page}`).classList.add('nav__link_active')
   }
   render() {
+    this.name.innerHTML = JSON.parse(localStorage.getItem("user")).name;
     this.startPageNode.appendChild(this.main);
   }
   renderWholePage() {
     this.node.appendChild(this.div);
   }
   destroy() {
-    console.log("startPageNode destroy");
     this.startPageNode.innerHTML = "";
   }
   destroyWhole() {

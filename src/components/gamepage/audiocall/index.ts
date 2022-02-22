@@ -263,12 +263,9 @@ export class AudiocallPage {
       },
     };
     await api.putStatistics(statistic);
-    console.log(oldStatistics, statistic);
   }
 
   openResults() {
-    console.log("this.correctAnswersInRow", this.correctAnswersInRow);
-
     this.destroy();
     this.audioEndRaund.play();
     this.allWordsAtRound = this.allWordsAtRound.concat(

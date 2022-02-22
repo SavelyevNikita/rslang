@@ -37,7 +37,7 @@ footer {
     background-color: $button-color;
   }
 }
-.signin-hide{
+.signin-hide {
   display: none;
 }
 .nav {
@@ -94,7 +94,7 @@ footer {
 }
 .nav__link_game:hover .game-list {
   display: block;
-  .game-list__item:hover{
+  .game-list__item:hover {
     background: $button-color;
   }
 }
@@ -106,10 +106,68 @@ footer {
 }
 .home {
   margin: 0 auto;
-  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   &__text {
+    margin: 0 auto;
+    max-width: 500px;
     font-size: 18px;
     line-height: 24px;
+  }
+  &__tittle {
+    font-size: 26px;
+    font-weight: 900;
+    margin: 40px;
+  }
+  &__name{
+    color: $button-color;
+  }
+}
+
+.team {
+  display: flex;
+  gap: 20px;
+  &__container {
+    max-width: 300px;
+    background: $bg-color;
+    border-radius: 20px;
+    width: 300px;
+    font-size: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__img-container{
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+
+  }
+  &__img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 3px solid $button-color;
+    &_julia {
+      background: url(./../../assets/img/julia.jpg) no-repeat 50% 50%;
+      background-size: cover;
+    }
+    &_nikita {
+      background: url(./../../assets/img/nikita.jpg) no-repeat 50% 50%;
+      background-size: cover;
+    }
+  }
+  &__tittle {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: 500;
+  }
+  &__text {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 20px;
   }
 }
 .footer {
