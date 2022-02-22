@@ -49,7 +49,8 @@
     width: 100%;
     height: 2rem;
     margin: 1rem 0rem;
-    background: rgb(255, 252, 71);
+    background: #fdeddf;
+    border-radius: 1rem;
     height: 10rem;
 }
 
@@ -114,7 +115,10 @@
 
 .wrapper-text {
     width: 45rem;
-    padding: 1rem;
+}
+.wrapper-option {
+    width: 15rem;
+    padding: 2rem 0;
 }
 
 .word {
@@ -126,7 +130,7 @@
 }
 
 .complicated {
-    background: tomato;
+    background: #f9ac67;
 }
 .studied {
     background: rgb(77, 255, 71);
@@ -135,4 +139,8 @@
 .pic {
     max-width: 100%;
     height: auto;
+}
+
+p{
+    margin: 0.2rem;
 }

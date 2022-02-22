@@ -72,7 +72,10 @@ export class Application {
       startPage.destroy();
       const audiocallPage = new AudiocallPage(startPage.startPageNode);
       audiocallPage.renderCategory();
-      audiocallPage.startPage = startPage
+      audiocallPage.startPage = startPage;
+      audiocallPage.onStudiedAudiocall=(item: Iword)=>{
+        this.dataModel.addToStudied(item);
+      }
     };
 
     startPage.onStatistic = () => {

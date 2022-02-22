@@ -48,6 +48,7 @@ export class AudiocallPage {
   audioEndRaund: HTMLAudioElement;
   correctAnswersInRow: number;
   biggestCorrectAnswersInRow: number;
+  onStudiedAudiocall: (item: Iword) => void;
   constructor(node: HTMLElement) {
     this.node = node;
     this.category = document.createElement("div");
@@ -117,9 +118,8 @@ export class AudiocallPage {
       }
       if (index === this.answerRight) {
         button.classList.add("audiocall__version_right");
-        button.innerHTML = `${
-          this.allWords[this.randNumList[this.wordIndex]].word
-        }`;
+        button.innerHTML = `${this.allWords[this.randNumList[this.wordIndex]].word
+          }`;
       } else {
         const wrongRand = Math.floor(Math.random() * 19);
         button.innerHTML = `${this.allWrongWords[wrongRand].word}`;
@@ -138,6 +138,7 @@ export class AudiocallPage {
   ifCurrect() {
     this.audioCorrect.play();
     this.rightList.push(this.allWords[this.randNumList[this.wordIndex]]);
+    this.onStudiedAudiocall(this.allWords[this.randNumList[this.wordIndex]]);
     this.correctAnswersInRow++;
     if (this.biggestCorrectAnswersInRow < this.correctAnswersInRow) {
       this.biggestCorrectAnswersInRow = this.correctAnswersInRow;
@@ -168,9 +169,8 @@ export class AudiocallPage {
       this.openResults();
     } else {
       this.chooseRightAnswer();
-      this.audio.src = `https://react-learnwords-example.herokuapp.com/${
-        this.allWords[this.randNumList[this.wordIndex]].audio
-      }`;
+      this.audio.src = `https://react-learnwords-example.herokuapp.com/${this.allWords[this.randNumList[this.wordIndex]].audio
+        }`;
       this.audio.play();
       this.node.appendChild(this.game);
       this.points.innerHTML = `${this.rightList.length}`;
@@ -203,7 +203,7 @@ export class AudiocallPage {
     let newWords = oldStatistics.newWords;
     this.allWordsAtRound.forEach((word: Iword) => {
       const mentionedWordIndex = oldStatistics.newWords.findIndex(
-        (item) => {item.wordId = word.id}
+        (item) => { item.wordId = word.id }
       );
       if (mentionedWordIndex === -1) {
         let right;
@@ -236,12 +236,12 @@ export class AudiocallPage {
     const allRightAnswers =
       oldStatistics.allRightAnswers + this.rightList.length;
 
-      let learnedWords = oldStatistics.learnedWords;
-      this.allWordsAtRound.forEach((item: Iword) => {
-        if (!learnedWords.includes(item.id)) {
-          learnedWords.push(item.id);
-        }
-      });
+    let learnedWords = oldStatistics.learnedWords;
+    this.allWordsAtRound.forEach((item: Iword) => {
+      if (!learnedWords.includes(item.id)) {
+        learnedWords.push(item.id);
+      }
+    });
 
     const statistic = {
       learnedWords: oldStatistics.learnedWordsNumber,

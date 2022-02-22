@@ -68,7 +68,6 @@ export class StartPage {
     this.node.appendChild(this.div);
   }
   destroy() {
-    console.log('startPageNode destroy')
     this.startPageNode.innerHTML = "";
   }
   destroyWhole() {
