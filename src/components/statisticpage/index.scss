@@ -12,7 +12,9 @@
   &__tittle {
     font-size: 32px;
     font-weight: 500;
-    text-transform: uppercase;
+  }
+  &__name{
+    color: $button-color;
   }
   &__container {
     display: flex;
@@ -28,7 +30,7 @@
     &_bold {
       font-size: 50px;
       font-weight: 900;
-      color: $hover-button-color;
+      color: $button-color;
     }
     &_normal {
       text-transform: uppercase;

@@ -203,7 +203,6 @@ export class SprintPage {
   async putStatistics() {
     const oldStatistics = new OldStatistics();
     await oldStatistics.getStatistics();
-    console.log(oldStatistics);
 
     let newWordsSprint = oldStatistics.newWordsSprint;
     this.allWordsAtRound.forEach((item: Iword) => {

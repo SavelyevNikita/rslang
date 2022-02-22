@@ -42,7 +42,8 @@ export class AutorizationPopUp {
       const onSign = await api.signInUser(this.user);
       if (onSign) {
         this.onUser(this.user);
-        document.querySelector('.signin').textContent = onSign.name;
+        document.querySelector('.signin').classList.add('signin-hide')
+        document.querySelector('.signout').classList.remove('signin-hide');
       }
       this.destroy();
     };
