@@ -44,20 +44,24 @@ export class StartPage {
     
     this.mainButton.onclick = () => {
       this.onMain();
+      this.changeActiveNavLink('main')
     };
     this.bookButton.onclick = () => {
       this.onBook();
+      this.changeActiveNavLink('book')
     };
     this.sprintButton.onclick = () => {
       this.onSprint();
+      this.changeActiveNavLink('game')
     };
     this.audiocallButton.onclick = () => {
       this.onAudiocall();
+      this.changeActiveNavLink('game')
     };
     this.statisticButton.onclick = () => {
       this.onStatistic();
+      this.changeActiveNavLink('statistics')
     };
-
     this.signOutButton.onclick = () => {
       localStorage.setItem("user", ``);
       document.querySelector('.signout').classList.add('signin-hide')
@@ -69,6 +73,10 @@ export class StartPage {
         document.addEventListener("click", this.autorization.removeForm);
       }, 300);
     };
+  }
+  changeActiveNavLink (page:string) {
+    document.querySelector('.nav__link_active').classList.remove('nav__link_active')
+    document.querySelector(`.nav__link_${page}`).classList.add('nav__link_active')
   }
   render() {
     this.startPageNode.appendChild(this.main);
