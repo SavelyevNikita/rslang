@@ -9,12 +9,13 @@ export class StartPage {
   statisticButton: HTMLDivElement;
   sprintButton: HTMLDivElement;
   audiocallButton: HTMLDivElement;
+  signOutButton: HTMLButtonElement;
   signInButton: HTMLButtonElement;
   signInWrapper: HTMLDivElement;
   main: HTMLElement;
   startPageNode: HTMLDivElement;
   node: HTMLElement;
-
+  name:HTMLSpanElement
   onMain: () => void;
   onBook: () => void;
   onSprint: () => void;
@@ -36,24 +37,37 @@ export class StartPage {
     this.sprintButton = doc.querySelector(".game-list__item_sprint");
     this.audiocallButton = doc.querySelector(".game-list__item_audiocall");
     this.statisticButton = doc.querySelector(".nav__link_statistics");
-    this.signInButton = doc.querySelector(".signin");
     this.signInWrapper = doc.querySelector(".signin-wrapper");
     this.autorization = new AutorizationPopUp();
+    this.signInButton = doc.querySelector(".signin");
+    this.signOutButton = doc.querySelector(".signout")
+    this.name = doc.querySelector(".home__name");
+    
     this.mainButton.onclick = () => {
       this.onMain();
+      this.changeActiveNavLink('main')
     };
     this.bookButton.onclick = () => {
       this.onBook();
+      this.changeActiveNavLink('book')
     };
     this.sprintButton.onclick = () => {
       this.onSprint();
+      this.changeActiveNavLink('game')
     };
     this.audiocallButton.onclick = () => {
       this.onAudiocall();
+      this.changeActiveNavLink('game')
     };
     this.statisticButton.onclick = () => {
       this.onStatistic();
+      this.changeActiveNavLink('statistics')
     };
+    this.signOutButton.onclick = () => {
+      localStorage.setItem("user", ``);
+      document.querySelector('.signout').classList.add('signin-hide')
+        document.querySelector('.signin').classList.remove('signin-hide');
+    }
     this.signInButton.onclick = () => {
       this.autorization.render(this.signInWrapper);
       setTimeout(() => {
@@ -61,14 +75,18 @@ export class StartPage {
       }, 300);
     };
   }
+  changeActiveNavLink (page:string) {
+    document.querySelector('.nav__link_active').classList.remove('nav__link_active')
+    document.querySelector(`.nav__link_${page}`).classList.add('nav__link_active')
+  }
   render() {
+    this.name.innerHTML = JSON.parse(localStorage.getItem("user")).name;
     this.startPageNode.appendChild(this.main);
   }
   renderWholePage() {
     this.node.appendChild(this.div);
   }
   destroy() {
-    console.log('startPageNode destroy')
     this.startPageNode.innerHTML = "";
   }
   destroyWhole() {
