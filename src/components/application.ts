@@ -35,7 +35,7 @@ export class Application {
     };
     startPage.onBook = () => {
       startPage.destroy();
-      const categoryPage = new CategoryPage(startPage.startPageNode, this.dataModel.complicatedWords.size);
+      const categoryPage = new CategoryPage(startPage.startPageNode, 1);
       categoryPage.onSection1 = () => {
         this.bookPageCycle(startPage.startPageNode, 0, this.isAutorised);
       }
