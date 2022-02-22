@@ -118,11 +118,11 @@ export class AudiocallPage {
       if (index === this.answerRight) {
         button.classList.add("audiocall__version_right");
         button.innerHTML = `${
-          this.allWords[this.randNumList[this.wordIndex]].word
+          this.allWords[this.randNumList[this.wordIndex]].wordTranslate
         }`;
       } else {
         const wrongRand = Math.floor(Math.random() * 19);
-        button.innerHTML = `${this.allWrongWords[wrongRand].word}`;
+        button.innerHTML = `${this.allWrongWords[wrongRand].wordTranslate}`;
       }
       button.onclick = () => {
         if (button.classList.contains("audiocall__version_right")) {
